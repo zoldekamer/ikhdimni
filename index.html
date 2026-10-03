@@ -63,7 +63,8 @@
 - طرق الدفع تتغير حسب الدولة.
 
 9) الحساب والدخول
-- إنشاء حساب، تسجيل دخول، تحقق هاتف/OTP، واستعادة كلمة المرور.
+- مقدم الخدمة والتاجر: إنشاء حساب، تسجيل دخول، تحقق هاتف/OTP، واستعادة كلمة المرور.
+- العميل المستفيد يدخل مباشرة بدون تسجيل؛ يعبّي بياناته عند إرسال طلب الخدمة.
 - منع تكرار أرقام الهاتف بين الحسابات قدر الإمكان.
 - كلمات المرور لا تُحفظ كنص صريح في النسخة التجريبية.
 
@@ -77,10 +78,10 @@
 - التخزين الآمن الحقيقي، الهوية، SMS، المدفوعات، الصلاحيات القوية، منع التلاعب، والتشفير الكامل تحتاج Backend/قاعدة بيانات وخادم إنتاجي.
 ==============================================================
 -->
-<html lang="ar" dir="rtl">
+<html dir="rtl" lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>اخدمني — النسخة الموحدة</title>
 <style>
 :root{--bg:#f4f7fb;--card:#fff;--line:#dfe6ef;--text:#172033;--muted:#667085;--blue:#2563eb;--green:#15803d;--red:#b42318;--orange:#b54708}
@@ -99,17 +100,39 @@ body{margin:0;font-family:Arial,Tahoma,sans-serif;background:var(--bg);color:var
 .category-card img{width:100%;height:120px;object-fit:cover;display:block} .category-name{padding:10px;font-weight:800;text-align:center}
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .service-card{padding:12px;text-align:center;font-weight:700;background:#fbfdff}
+.service-price-mini{display:block;margin-top:6px;font-size:12px;color:#16794c;font-weight:800}
+.market-price-box{border:1px solid #cfe7da;background:#f7fcf9;border-radius:15px;padding:13px;margin:12px 0}
+.market-price-title{font-weight:900;margin-bottom:8px}
+.market-price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.market-price-item{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:10px;text-align:center}
+.market-price-item b{display:block;font-size:20px;margin-top:4px}
+.market-price-item.avg{border:2px solid #22a06b;background:#ecfdf5}
+.market-price-source{margin-top:9px;font-size:12px;color:#667085;line-height:1.6}
+.owner-low-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.owner-low-tools input,.owner-low-tools select{max-width:320px}
+.low-source-card{border:1px solid var(--line);border-radius:14px;padding:12px;margin:9px 0;background:#fff}
+.low-source-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.low-source-price{font-size:22px;font-weight:900;color:#0f766e}
+.low-source-meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:9px}
+.low-source-meta>div{background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:9px}
+.source-badge{display:inline-block;border-radius:999px;padding:4px 8px;font-size:12px;font-weight:800;background:#eef2ff;color:#3730a3}
+.source-badge.verified{background:#ecfdf5;color:#166534}
+.source-badge.reference{background:#fff7ed;color:#9a3412}
+@media(max-width:700px){.low-source-meta{grid-template-columns:1fr}}
+
+@media(max-width:700px){.market-price-grid{grid-template-columns:1fr}}
+
 .service-accordion{display:flex;flex-direction:column;gap:10px;margin-top:12px}
 .category-accordion{border:1px solid var(--line);border-radius:16px;background:#fff;overflow:hidden}
 .category-toggle{width:100%;display:flex;align-items:center;gap:12px;padding:10px 12px;margin:0;background:#fff;color:var(--text);text-align:right;border:0;border-radius:0;box-shadow:none}
 .category-toggle:hover{background:#f8fafc;transform:none;box-shadow:none}
-.category-toggle img{width:76px;height:54px;object-fit:cover;border-radius:10px;flex:0 0 auto}
+.category-toggle .category-icon{width:76px;height:54px;border-radius:10px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-size:32px;background:#f1f5f9;border:1px solid #e5e7eb}
 .category-toggle .category-title{font-weight:800;font-size:17px;flex:1}
 .category-toggle .category-arrow{font-size:22px;transition:transform .2s ease;color:#64748b}
 .category-accordion.open .category-arrow{transform:rotate(180deg)}
-.category-services{display:none;padding:8px 12px 12px;border-top:1px solid var(--line);background:#fbfdff;grid-template-columns:repeat(3,1fr);gap:8px}
-.category-accordion.open .category-services{display:grid}
-.category-services .service-card{margin:0}
+.category-services{display:none;padding:8px 12px 12px;border-top:1px solid var(--line);background:#fbfdff;flex-direction:column;gap:8px}
+.category-accordion.open .category-services{display:flex}
+.category-services .service-card{margin:0;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;text-align:right}
 label{display:block;font-weight:700;margin:9px 0 6px} input,select,textarea,button{width:100%;padding:12px;border-radius:12px;border:1px solid #cdd6e1;font-size:16px;font-family:inherit}
 textarea{min-height:90px;resize:vertical} button{border:0;background:var(--blue);color:#fff;font-weight:800;cursor:pointer;margin-top:9px}
 button.success{background:var(--green)} button.danger{background:var(--red)} button.warn{background:var(--orange)} button.light{background:#e8eef6;color:#172033} button.secondary{background:#475467}
@@ -126,208 +149,668 @@ button.success{background:var(--green)} button.danger{background:var(--red)} but
 .kpi{background:#fbfdff;border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center} .kpi b{display:block;font-size:22px;margin-top:4px}
 @media(max-width:760px){.roles,.grid,.grid3,.owner-tabs,.services-grid,.country-grid,.category-services{grid-template-columns:1fr 1fr} .wrap{padding:9px}}
 @media(max-width:480px){.roles,.grid,.grid3,.owner-tabs,.services-grid,.country-grid,.category-services{grid-template-columns:1fr}}
+
+.request-success-overlay{
+  position:fixed; inset:0; z-index:9999;
+  background:rgba(15,23,42,.58);
+  display:none; align-items:center; justify-content:center;
+  padding:18px;
+}
+.request-success-overlay.show{display:flex}
+.request-success-box{
+  width:min(560px,94vw);
+  background:#fff;
+  border-radius:22px;
+  padding:30px 24px;
+  box-shadow:0 24px 70px rgba(0,0,0,.28);
+  text-align:center;
+  border:1px solid #e5e7eb;
+}
+.request-success-icon{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  font-size:34px;font-weight:900;
+  background:#ecfdf5;color:#166534;
+}
+.request-success-box h2{margin:0 0 10px;font-size:27px}
+.request-success-box p{font-size:17px;line-height:1.9;margin:0 0 10px;color:#374151}
+.request-success-ref{
+  margin:14px auto 18px;
+  padding:10px 14px;
+  border-radius:12px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  font-weight:800;
+}
+
+
+.category-accordion.selected-service{
+  border-color:#cbd5e1;
+  box-shadow:0 8px 24px rgba(15,23,42,.06);
+}
+.category-selected-line{
+  display:none;
+  padding:10px 12px;
+  border-top:1px solid var(--line);
+  background:#f8fafc;
+  font-weight:800;
+}
+.category-accordion.selected-service .category-selected-line{display:block}
+
+
+.client-menu-btn{
+  position:fixed;
+  top:92px;
+  right:20px;
+  z-index:3100;
+  width:64px;
+  height:64px;
+  border-radius:16px;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:0;
+  background:#fff;
+  border:2px solid #d1d5db;
+  box-shadow:0 10px 28px rgba(15,23,42,.18);
+}
+.client-menu-btn .hamb-line{
+  display:block;
+  width:32px;
+  height:4px;
+  border-radius:999px;
+  background:#111827;
+}
+#clientServices.active .client-menu-btn,
+#dashboard.active .client-menu-btn,
+#owner.active .client-menu-btn{display:flex}
+@media(max-width:700px){
+  .client-menu-btn{top:86px;right:14px;width:60px;height:60px}
+}
+.client-drawer-backdrop{
+  position:fixed; inset:0; z-index:3190;
+  background:rgba(15,23,42,.45);
+  opacity:0; visibility:hidden; transition:.22s ease;
+}
+.client-drawer-backdrop.show{opacity:1;visibility:visible}
+.client-drawer{
+  position:fixed; top:0; right:0; bottom:0; z-index:3200;
+  width:min(390px,90vw);
+  background:#fff;
+  box-shadow:-18px 0 45px rgba(15,23,42,.2);
+  transform:translateX(105%);
+  transition:transform .24s ease;
+  display:flex; flex-direction:column;
+}
+.client-drawer.show{transform:translateX(0)}
+.client-drawer-head{
+  padding:18px; border-bottom:1px solid var(--line);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.client-drawer-profile{
+  padding:14px 18px; background:#f8fafc; border-bottom:1px solid var(--line);
+}
+.client-drawer-menu{padding:10px; overflow:auto; flex:1}
+.client-menu-item{
+  width:100%; display:flex; align-items:center; justify-content:flex-start;
+  gap:10px; text-align:right; background:#fff; color:#111827;
+  border:0; border-bottom:1px solid #f0f2f5; border-radius:10px;
+  padding:13px 12px; margin:2px 0; box-shadow:none;
+}
+.client-menu-item:hover{background:#f8fafc}
+.client-menu-item .mi{font-size:20px;min-width:26px;text-align:center}
+.client-drawer-detail{
+  margin:8px 10px 12px; padding:12px;
+  background:#f8fafc; border:1px solid var(--line); border-radius:14px;
+  max-height:240px; overflow:auto; line-height:1.8;
+}
+.client-drawer-auth{
+  padding:12px; border-top:1px solid var(--line); background:#fff;
+}
+.client-drawer-auth .grid{gap:8px}
+.client-history-item{
+  background:#fff; border:1px solid var(--line); border-radius:10px;
+  padding:9px; margin:7px 0;
+}
+.client-history-item b{display:block;margin-bottom:3px}
+
+
+.provider-welcome-overlay{
+  position:fixed; inset:0; z-index:10050;
+  background:rgba(15,23,42,.62);
+  display:none; align-items:center; justify-content:center;
+  padding:18px;
+}
+.provider-welcome-overlay.show{display:flex}
+.provider-welcome-box{
+  width:min(640px,94vw);
+  background:#fff;
+  border-radius:24px;
+  padding:34px 28px;
+  text-align:center;
+  box-shadow:0 28px 80px rgba(0,0,0,.3);
+  border:1px solid #e5e7eb;
+}
+.provider-welcome-badge{
+  display:inline-block;
+  padding:7px 14px;
+  border-radius:999px;
+  background:#ecfdf5;
+  color:#166534;
+  font-weight:900;
+  margin-bottom:14px;
+}
+.provider-welcome-box h2{
+  margin:0 0 14px;
+  font-size:31px;
+  line-height:1.45;
+}
+.provider-welcome-box p{
+  margin:0 auto 18px;
+  max-width:520px;
+  font-size:18px;
+  line-height:1.9;
+  color:#374151;
+}
+.provider-free-note{
+  margin:18px auto 22px;
+  padding:16px;
+  border-radius:16px;
+  background:#f8fafc;
+  border:1px solid #e5e7eb;
+  font-size:19px;
+  font-weight:900;
+}
+
+
+.payment-shell{max-width:980px;margin:0 auto}
+.payment-hero{
+  background:linear-gradient(135deg,#0f172a,#334155);
+  color:#fff;border-radius:22px;padding:24px;margin-bottom:16px;
+}
+.payment-hero h2{margin:0 0 8px;font-size:28px}
+.payment-methods{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:14px
+}
+.pay-card{
+  background:#fff;border:2px solid #e5e7eb;border-radius:16px;
+  padding:15px;cursor:pointer;transition:.15s ease;min-height:96px;
+  display:flex;align-items:center;gap:12px;text-align:right;
+}
+.pay-card:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(15,23,42,.08)}
+.pay-card.active{border-color:#2563eb;background:#eff6ff}
+.pay-logo{
+  width:52px;height:52px;border-radius:14px;background:#f8fafc;border:1px solid #e5e7eb;
+  display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px;flex:0 0 auto
+}
+.pay-card b{display:block;font-size:16px}
+.pay-card .small{margin-top:3px}
+.payment-form{
+  margin-top:16px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px
+}
+.payment-form h3{margin-top:0}
+.payment-central{
+  margin-top:14px;padding:14px;border-radius:14px;background:#ecfdf5;border:1px solid #a7f3d0
+}
+.payment-central b{color:#166534}
+.wallet-grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px
+}
+.wallet-choice{
+  border:1px solid #d1d5db;border-radius:12px;padding:10px;background:#fff;cursor:pointer
+}
+.wallet-choice.active{border:2px solid #2563eb;background:#eff6ff}
+.payment-demo-note{
+  margin-top:12px;padding:10px 12px;border-radius:12px;background:#fff7ed;border:1px solid #fed7aa;
+  color:#9a3412;font-size:13px;line-height:1.7
+}
+.pay-summary{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px
+}
+.pay-summary>div{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:10px}
+@media(max-width:760px){
+  .payment-methods{grid-template-columns:1fr 1fr}
+  .pay-summary{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .payment-methods{grid-template-columns:1fr}
+  .wallet-grid{grid-template-columns:1fr}
+}
+
+
+.back-btn{
+  background:#1f2937 !important;
+  color:#ffffff !important;
+  border:2px solid #111827 !important;
+  font-weight:900 !important;
+  font-size:16px !important;
+  padding:10px 16px !important;
+  box-shadow:0 5px 14px rgba(15,23,42,.18) !important;
+}
+.back-btn:hover{
+  background:#111827 !important;
+}
+
+
+/* ===== Latest combined interface update ===== */
+body{
+  background:
+    radial-gradient(circle at 12% 12%,rgba(37,99,235,.17),transparent 26%),
+    radial-gradient(circle at 88% 18%,rgba(16,185,129,.14),transparent 24%),
+    radial-gradient(circle at 82% 82%,rgba(249,115,22,.12),transparent 25%),
+    linear-gradient(135deg,#eef6ff 0%,#f8fbff 42%,#f5f3ff 72%,#fff7ed 100%) !important;
+  background-attachment:fixed !important;
+}
+.top{
+  position:relative !important;display:grid !important;grid-template-columns:1fr !important;
+  gap:12px !important;background:rgba(255,255,255,.90) !important;backdrop-filter:blur(12px);
+  border-radius:22px !important;padding:18px !important;box-shadow:0 16px 40px rgba(15,23,42,.10) !important;
+}
+.brand{
+  font-size:48px !important;font-weight:1000 !important;text-align:center !important;letter-spacing:-1px;
+  background:linear-gradient(135deg,#0f4cbd,#2563eb 45%,#0f766e);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.brand-sub{text-align:center;font-weight:800;color:#475467;margin-top:3px}
+.top-tools{display:grid;grid-template-columns:auto minmax(260px,1fr);gap:12px;align-items:center}
+.global-search-wrap{position:relative}
+.global-search-wrap input{margin:0;background:#fff;border:2px solid #d8e3f2;padding:13px 14px;font-weight:800}
+.global-search-results{
+  position:absolute;top:calc(100% + 7px);right:0;left:0;z-index:5000;background:#fff;border:1px solid var(--line);
+  border-radius:15px;box-shadow:0 18px 42px rgba(15,23,42,.18);max-height:360px;overflow:auto;padding:7px
+}
+.global-search-item{
+  display:block;width:100%;text-align:right;margin:0 0 5px;padding:10px 12px;background:#fff;color:#172033;
+  border:1px solid #eef2f7;border-radius:10px;font-weight:900
+}
+.global-search-item:hover{background:#eff6ff}
+.panel{background:rgba(255,255,255,.94)!important;backdrop-filter:blur(8px)}
+.service-accordion{margin-top:4px!important}
+.unified-login-card{max-width:620px;margin:0 auto 14px}
+.unified-login-card .brand{font-size:56px!important}
+.registration-picker{max-width:820px;margin:0 auto 14px}
+@media(max-width:700px){
+  .brand{font-size:39px!important}.unified-login-card .brand{font-size:46px!important}.top-tools{grid-template-columns:1fr}
+}
+
+.back-strong{
+  background:#1f2937 !important;
+  color:#fff !important;
+  border:2px solid #111827 !important;
+  font-weight:900 !important;
+  font-size:16px !important;
+  padding:11px 18px !important;
+  border-radius:12px !important;
+  box-shadow:0 6px 16px rgba(15,23,42,.18) !important;
+}
+.back-strong:hover{background:#111827 !important}
+
+
+.guest-client-btn{
+  background:#fff !important;
+  color:#111827 !important;
+  border:2px solid #111827 !important;
+  font-weight:900 !important;
+  font-size:18px !important;
+  padding:14px 22px !important;
+  border-radius:14px !important;
+  box-shadow:0 8px 20px rgba(15,23,42,.14) !important;
+}
+.guest-client-btn:hover{
+  background:#f9fafb !important;
+}
+
+
+
+
+.top{display:none !important}
+.wrap{padding-top:0 !important}
+body{
+  background:
+    linear-gradient(rgba(255,255,255,.12),rgba(255,255,255,.22)),
+    url('ikhdimni_home_visual.png') center top / cover fixed no-repeat;
+}
+#home{
+  min-height:100vh;
+  padding:28px 18px 40px;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+#home.active{display:flex}
+#home .unified-login-card{
+  width:min(620px,95vw);
+  margin:0 auto;
+  padding:0 24px 24px;
+  border-radius:28px;
+  background:linear-gradient(180deg,rgba(252,248,242,.97),rgba(247,240,230,.96));
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:0 28px 80px rgba(15,23,42,.28);
+  overflow:hidden;
+}
+.home-hero{
+  height:230px;
+  margin:0 -24px 20px;
+  background:
+    linear-gradient(rgba(15,23,42,.18),rgba(15,23,42,.08)),
+    url('ikhdimni_home_visual.png') center center / cover no-repeat;
+}
+.home-welcome{margin-bottom:16px;text-align:center}
+.home-welcome h1{
+  margin:0 0 8px;
+  font-size:35px;
+  font-weight:1000;
+  color:#0f172a;
+}
+.home-welcome p{
+  margin:0;
+  color:#475569;
+  font-size:17px;
+  line-height:1.8;
+}
+.home-login-title{
+  text-align:center;
+  font-size:24px;
+  margin:10px 0 16px;
+  color:#0f172a;
+}
+#home input{
+  background:#fffefb;
+  border:1.5px solid #d6d3d1;
+}
+#home .guest-client-btn{
+  background:#fff !important;
+  color:#111827 !important;
+}
+.category-toggle .category-photo{
+  width:86px;height:58px;object-fit:cover;border-radius:12px;flex:0 0 auto;
+  border:1px solid #e5e7eb;box-shadow:0 4px 10px rgba(15,23,42,.08);
+}
+.category-toggle .category-icon{display:none !important}
+@media(max-width:700px){
+  #home{padding-top:18px}
+  #home .unified-login-card{padding:0 16px 18px}
+  .home-hero{height:190px;margin:0 -16px 16px}
+  .home-welcome h1{font-size:29px}
+}
+
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <div><div class="brand">اخدمني</div><div class="muted">نسخة موحّدة تجريبية — عميل، مقدم خدمة، تاجر، ولوحة مالك</div></div>
-    <div id="countryChip" class="small"></div>
-  </header>
+<header class="top">
+<div>
+<div class="brand">اخدمني</div>
+<div class="brand-sub">كل خدمة تحتاجها في مكان واحد</div>
+</div>
+<div class="top-tools">
+<div class="small" id="countryChip"></div>
+<div class="global-search-wrap">
+<input id="globalSearchInput" onfocus="globalSearch(this.value)" oninput="globalSearch(this.value)" placeholder="ابحث عن أي خدمة أو كلمة داخل اخدمني..."/>
+<div class="global-search-results hidden" id="globalSearchResults"></div>
+</div>
+</div>
+</header>
+<section class="screen active" id="countrySelect">
+<div class="panel">
+<h2>اختر دولتك</h2>
+<div class="muted">يتم ضبط العملة ومفتاح الهاتف ونوع الهوية والمصطلحات حسب الدولة.</div>
+<input id="countrySearch" oninput="renderCountries(this.value)" placeholder="ابحث عن الدولة"/>
+<div class="country-grid" id="countryGrid"></div>
+</div>
+</section>
+<section class="screen" id="home">
+<div class="panel unified-login-card">
+<div class="home-hero"></div>
+<div class="home-welcome">
+<h1>مرحبًا بك في اخدمني</h1>
+<p>كل خدماتك في مكان واحد، بسرعة وبسهولة.</p>
+</div>
+<h2 class="home-login-title">تسجيل الدخول</h2>
+<label>البريد الإلكتروني</label>
+<input id="loginEmail" placeholder="example@email.com" type="email"/>
+<label>كلمة السر</label>
+<div class="password-wrap">
+<input id="loginPassword" placeholder="كلمة السر" type="password"/>
+<button class="password-eye" onclick="togglePassword('loginPassword',this)" type="button">👁️</button>
+</div>
+<button onclick="login()">تسجيل الدخول</button>
+<div id="loginMsg"></div>
+<div class="grid" style="margin-top:10px">
+<button class="success" onclick="openRegistration()">إنشاء حساب جديد</button>
+<button class="secondary" onclick="openForgotFromHome()">نسيت كلمة السر</button>
+</div>
+<button class="light guest-client-btn" onclick="enterAsGuestClient()">متابعة كعميل بدون تسجيل</button>
+<button class="light" onclick="changeCountry()">تغيير الدولة</button>
 
-  <section id="countrySelect" class="screen active">
-    <div class="panel">
-      <h2>اختر دولتك</h2>
-      <div class="muted">يتم ضبط العملة ومفتاح الهاتف ونوع الهوية والمصطلحات حسب الدولة.</div>
-      <input id="countrySearch" placeholder="ابحث عن الدولة" oninput="renderCountries(this.value)">
-      <div id="countryGrid" class="country-grid"></div>
-    </div>
-  </section>
+<button class="secondary" onclick="showScreen('owner')" style="margin-top:14px">لوحة الإدارة التجريبية</button>
+</div>
+</section>
+<section class="screen" id="auth">
+<div class="panel registration-picker">
+<button class="light back-btn" onclick="returnFromAuth()">رجوع</button>
+<h2 style="text-align:center">إنشاء حساب جديد</h2>
+<div id="registrationRolePicker">
+<div class="muted" style="text-align:center">اختر نوع الحساب الذي تريد إنشاءه</div>
+<div class="roles" style="margin-top:12px">
+<div class="role" onclick="chooseRegistrationRole('client')"><div class="icon">👤</div><b>عميل</b></div>
+<div class="role" onclick="chooseRegistrationRole('provider')"><div class="icon">🧰</div><b>مقدم خدمة</b></div>
+<div class="role" onclick="chooseRegistrationRole('merchant')"><div class="icon">🏪</div><b>تاجر</b></div>
+</div>
+<button class="secondary" onclick="showScreen('home')">عندي حساب — تسجيل الدخول</button>
+</div>
+</div>
+<div class="panel hidden" id="registerBox">
+<h3 id="registerRoleTitle">إنشاء حساب</h3>
+<div class="note" id="countryProfile"></div>
+<div class="grid">
+<div><label>الاسم الكامل كما في الهوية</label><input id="regFullName"/></div>
+<div><label id="idLabel">رقم الهوية</label><input id="regNationalId"/></div>
+<div><label>رقم الهاتف</label><input id="regPhone"/></div>
+<div><label>رقم بديل</label><input id="regAltPhone" placeholder="اختياري ومختلف عن الأساسي"/></div>
+<div><label>الإيميل</label><input id="regEmail" type="email"/></div><div><label>كود الإحالة — اختياري</label><input id="regReferralCode" placeholder="إذا دعاك شخص، اكتب كوده هنا"/></div>
+<div><label>الباسورد</label><div class="password-wrap"><input id="regPassword" placeholder="8 أحرف أو أكثر" type="password"/><button class="password-eye" onclick="togglePassword('regPassword',this)" type="button">👁️</button></div></div>
+<div id="addressField"><label>مكان السكن</label><input id="regAddress"/></div>
+<div><label>المنطقة العامة</label><input id="regArea"/></div>
+</div>
+<div class="hidden" id="providerExtra">
+<div class="grid">
+<div><label>المهنة</label><select id="regJob"></select></div>
+<div><label>سنوات الخبرة</label><input id="regExperience" min="0" type="number" value="0"/></div>
+<div><label>عدد الأعمال السابقة</label><input id="regJobsDone" min="0" type="number" value="0"/></div>
+<div><label>صورة الهوية — إلزامية</label><input accept="image/*" id="regIdImage" type="file"/></div>
+</div>
+<label>صور من الأعمال السابقة</label><input accept="image/*" id="regWorkImages" multiple="" type="file"/>
+<div class="privacy">صورة الهوية وبيانات التحقق تظهر للمالك فقط. النسخة الإنتاجية تحتاج تحقق هوية حقيقي ومنع التكرار عبر الخادم.</div>
+</div>
+<div class="hidden" id="merchantExtra">
+<div class="grid">
+<div><label>اسم المتجر</label><input id="regStoreName"/></div>
+<div><label>نوع المواد</label><select id="regMaterialType"><option>دهان</option><option>سباكة</option><option>كهرباء</option><option>مواد بناء</option><option>أدوات وصيانة</option><option>أخرى</option></select></div>
+<div><label>موقع المنشأة / المحل</label><input id="regBusinessAddress"/></div>
+<div><label>منتج/مادة للمقارنة السعرية</label><input id="regSampleItem" placeholder="مثال: جالون دهان"/></div>
+<div><label>سعر العينة</label><input id="regSamplePrice" min="0" step="0.01" type="number"/></div>
+<div><label>العملة</label><input id="regCurrency" readonly=""/></div>
+</div>
+<div class="mapbox">
+<b>موقع الخريطة</b>
+<div class="small">يمكن حفظ الإحداثيات من موقع الجهاز في النسخة التجريبية.</div>
+<div class="grid"><input id="regLat" placeholder="Latitude" readonly=""/><input id="regLng" placeholder="Longitude" readonly=""/></div>
+<button class="secondary" onclick="captureMerchantLocation()" type="button">استخدم موقعي الحالي</button>
+</div>
+</div>
+<div class="note"><b>شارك واربح 10%:</b> كل حساب يحصل على كود إحالة خاص بعد التسجيل. الإحالة تكون لنفس نوع الحساب: عميل لعميل، مقدم خدمة لمقدم خدمة، وتاجر لتاجر.</div><button onclick="startRegistration()">إنشاء الحساب وإرسال كود التفعيل</button>
+<div id="registerMsg"></div>
+</div><div class="panel hidden" id="otpBox">
+<h3>تفعيل رقم الهاتف</h3>
+<div class="note">نسخة تجريبية: استخدم الكود <b>123456</b>. في النسخة الحقيقية يُرسل SMS.</div>
+<input id="otpInput" placeholder="123456"/><button onclick="verifyOtp()">تأكيد الكود</button><div id="otpMsg"></div>
+</div><div class="panel hidden" id="forgotBox">
+<h3>استرجاع كلمة المرور</h3>
+<input id="forgotValue" placeholder="الإيميل أو الهاتف"/>
+<button onclick="forgotPassword()">طلب إعادة التعيين</button><div id="forgotMsg"></div>
+</div></section>
+<section class="screen" id="dashboard">
+<button aria-label="فتح القائمة" class="client-menu-btn universal-menu-btn" onclick="openClientDrawer()" type="button">
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+</button>
+<div class="panel">
+<button class="light" onclick="logout()">تسجيل خروج</button>
+<h2 id="dashTitle"></h2><div id="dashStatus"></div><div id="dashContent"></div>
+</div>
+</section>
+<section class="screen" id="clientServices">
+<button aria-label="فتح القائمة" class="client-menu-btn" onclick="openClientDrawer()" type="button">
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+</button>
+<div class="panel">
+<button class="light back-btn" onclick="returnFromClientServices()">رجوع</button>
+<h2>طلب خدمة جديدة</h2>
 
-  <section id="home" class="screen">
-    <div class="panel">
-      <div class="inline"><h2 style="margin:0">اختر نوع الحساب</h2><button class="light" onclick="changeCountry()">تغيير الدولة</button></div>
-      <div class="roles" style="margin-top:12px">
-        <div class="role" onclick="openRole('client')"><div class="icon">👤</div><b>عميل</b><div class="small">طلب خدمات ومتابعة الطلبات</div></div>
-        <div class="role" onclick="openRole('provider')"><div class="icon">🧰</div><b>مقدم خدمة</b><div class="small">تسجيل مهني واستقبال طلبات بعد التفعيل</div></div>
-        <div class="role" onclick="openRole('merchant')"><div class="icon">🏪</div><b>تاجر</b><div class="small">متجر ومواد وأسعار وموقع منشأة</div></div>
+<div class="service-accordion" id="serviceCategories"></div>
+</div>
+<div class="panel hidden" id="subServicesPanel"><h3 id="selectedCategoryTitle"></h3><div class="services-grid" id="subServices"></div></div>
+<div class="panel">
+<h2>متابعة طلبك</h2>
+<div class="small">بعد إرسال الطلب، احتفظ برقم المتابعة الذي يظهر لك. سيتم استخدامه لمتابعة حالة الطلب.</div>
+</div>
+<div class="panel hidden" id="requestPanel">
+<h3>تفاصيل الطلب</h3>
+<div class="note">ما تحتاج تسجل حساب. عبّي بياناتك فقط عند إرسال طلب الخدمة.</div>
+<div class="grid">
+<div><label>القسم</label><input id="reqCategory" readonly=""/></div>
+<div><label>الخدمة</label><input id="reqService" readonly=""/></div>
+</div>
+<div class="market-price-box" id="marketPricePanel"></div>
+<div class="grid">
+<div><label>اسمك</label><input id="reqClientName" placeholder="الاسم"/></div>
+<div><label>رقم الهاتف</label><input id="reqClientPhone" placeholder="رقم الهاتف"/></div>
+<div><label>المنطقة</label><input id="reqArea" placeholder="المنطقة العامة"/></div>
+<div><label>العنوان / موقع الخدمة</label><input id="reqAddress" placeholder="العنوان عند تنفيذ الخدمة"/></div>
+<div><label>موعد مناسب</label><input id="reqTime"/></div>
+</div>
+<label>تفاصيل الطلب</label><textarea id="reqDetails" placeholder="اشرح شو الخدمة اللي بدك إياها"></textarea>
+<label>صور المكان — اختياري</label><input accept="image/*" id="reqImages" multiple="" type="file"/>
+<button onclick="createRequest()">إرسال الطلب والبحث عن مقدم خدمة</button><div id="requestMsg"></div>
+</div>
+</section>
+<section class="screen" id="providersPublic">
+<div class="panel"><button class="light back-btn" onclick="returnFromPublicProviders()">رجوع</button><h2>مقدمو الخدمة المفعّلون</h2><div id="publicProviders"></div></div>
+</section>
+<section class="screen" id="paymentCenter">
+<div class="payment-shell">
+<button class="light back-btn" onclick="returnFromPaymentCenter()">رجوع</button>
+<div class="payment-hero">
+<h2>طرق الدفع</h2>
+<div>اختار طريقة الدفع المناسبة. جميع المدفوعات الإلكترونية في النظام النهائي تُسجّل على حساب تحصيل مركزي واحد للمنصة ثم تُوزّع محاسبيًا حسب الطلب.</div>
+</div>
+<div class="panel">
+<h3>اختار طريقة الدفع</h3>
+<div class="payment-methods" id="paymentMethodsGrid"></div>
+</div>
+<div class="payment-form" id="paymentDynamicForm"></div>
+<div class="payment-central">
+<b>حساب التحصيل المركزي — اخدمني</b>
+<div class="small" style="margin-top:5px">
+        التصميم الحالي تجريبي. عند التشغيل الحقيقي سيتم ربط بوابة دفع/حساب تاجر مرخّص،
+        بحيث تدخل المدفوعات إلى حساب تحصيل المنصة وتُسجّل كل عملية برقم طلب مستقل.
       </div>
-      <button class="secondary" onclick="showScreen('owner')">لوحة المالك التجريبية</button>
+</div>
+<div class="payment-demo-note">
+      مهم: هذه المعاينة لا تنفّذ أي خصم حقيقي ولا تحفظ أرقام البطاقات أو CVV.
+      الربط الحقيقي يحتاج مزود دفع وحساب تاجر ومفاتيح API آمنة على الخادم.
     </div>
-  </section>
-
-  <section id="auth" class="screen">
-    <div class="panel">
-      <button class="light" onclick="showScreen('home')">رجوع</button>
-      <h2 id="authTitle"></h2>
-      <div class="grid3">
-        <button onclick="showAuthBox('loginBox')">عندي حساب</button>
-        <button class="success" onclick="showAuthBox('registerBox')">إنشاء حساب</button>
-        <button class="secondary" onclick="showAuthBox('forgotBox')">نسيت كلمة المرور</button>
-      </div>
-    </div>
-
-    <div id="loginBox" class="panel hidden">
-      <h3>تسجيل الدخول</h3>
-      <label>الإيميل</label><input id="loginEmail" type="email">
-      <label>الباسورد</label>
-      <div class="password-wrap"><input id="loginPassword" type="password"><button type="button" class="password-eye" onclick="togglePassword('loginPassword',this)">👁️</button></div>
-      <button onclick="login()">دخول</button><div id="loginMsg"></div>
-    </div>
-
-    <div id="registerBox" class="panel hidden">
-      <h3>إنشاء حساب</h3>
-      <div id="countryProfile" class="note"></div>
-      <div class="grid">
-        <div><label>الاسم الكامل كما في الهوية</label><input id="regFullName"></div>
-        <div><label id="idLabel">رقم الهوية</label><input id="regNationalId"></div>
-        <div><label>رقم الهاتف</label><input id="regPhone"></div>
-        <div><label>رقم بديل</label><input id="regAltPhone" placeholder="اختياري ومختلف عن الأساسي"></div>
-        <div><label>الإيميل</label><input id="regEmail" type="email"></div>
-        <div><label>الباسورد</label><div class="password-wrap"><input id="regPassword" type="password" placeholder="8 أحرف أو أكثر"><button type="button" class="password-eye" onclick="togglePassword('regPassword',this)">👁️</button></div></div>
-        <div id="addressField"><label>مكان السكن</label><input id="regAddress"></div>
-        <div><label>المنطقة العامة</label><input id="regArea"></div>
-      </div>
-
-      <div id="providerExtra" class="hidden">
-        <div class="grid">
-          <div><label>المهنة</label><select id="regJob"></select></div>
-          <div><label>سنوات الخبرة</label><input id="regExperience" type="number" min="0" value="0"></div>
-          <div><label>عدد الأعمال السابقة</label><input id="regJobsDone" type="number" min="0" value="0"></div>
-          <div><label>صورة الهوية — إلزامية</label><input id="regIdImage" type="file" accept="image/*"></div>
-        </div>
-        <label>صور من الأعمال السابقة</label><input id="regWorkImages" type="file" accept="image/*" multiple>
-        <div class="privacy">صورة الهوية وبيانات التحقق تظهر للمالك فقط. النسخة الإنتاجية تحتاج تحقق هوية حقيقي ومنع التكرار عبر الخادم.</div>
-      </div>
-
-      <div id="merchantExtra" class="hidden">
-        <div class="grid">
-          <div><label>اسم المتجر</label><input id="regStoreName"></div>
-          <div><label>نوع المواد</label><select id="regMaterialType"><option>دهان</option><option>سباكة</option><option>كهرباء</option><option>مواد بناء</option><option>أدوات وصيانة</option><option>أخرى</option></select></div>
-          <div><label>موقع المنشأة / المحل</label><input id="regBusinessAddress"></div>
-          <div><label>منتج/مادة للمقارنة السعرية</label><input id="regSampleItem" placeholder="مثال: جالون دهان"></div>
-          <div><label>سعر العينة</label><input id="regSamplePrice" type="number" min="0" step="0.01"></div>
-          <div><label>العملة</label><input id="regCurrency" readonly></div>
-        </div>
-        <div class="mapbox">
-          <b>موقع الخريطة</b>
-          <div class="small">يمكن حفظ الإحداثيات من موقع الجهاز في النسخة التجريبية.</div>
-          <div class="grid"><input id="regLat" placeholder="Latitude" readonly><input id="regLng" placeholder="Longitude" readonly></div>
-          <button type="button" class="secondary" onclick="captureMerchantLocation()">استخدم موقعي الحالي</button>
-        </div>
-      </div>
-
-      <button onclick="startRegistration()">إنشاء الحساب وإرسال كود التفعيل</button>
-      <div id="registerMsg"></div>
-    </div>
-
-    <div id="otpBox" class="panel hidden">
-      <h3>تفعيل رقم الهاتف</h3>
-      <div class="note">نسخة تجريبية: استخدم الكود <b>123456</b>. في النسخة الحقيقية يُرسل SMS.</div>
-      <input id="otpInput" placeholder="123456"><button onclick="verifyOtp()">تأكيد الكود</button><div id="otpMsg"></div>
-    </div>
-
-    <div id="forgotBox" class="panel hidden">
-      <h3>استرجاع كلمة المرور</h3>
-      <input id="forgotValue" placeholder="الإيميل أو الهاتف">
-      <button onclick="forgotPassword()">طلب إعادة التعيين</button><div id="forgotMsg"></div>
-    </div>
-  </section>
-
-  <section id="dashboard" class="screen">
-    <div class="panel">
-      <button class="light" onclick="logout()">تسجيل خروج</button>
-      <h2 id="dashTitle"></h2><div id="dashStatus"></div><div id="dashContent"></div>
-    </div>
-  </section>
-
-  <section id="clientServices" class="screen">
-    <div class="panel">
-      <button class="light" onclick="returnToDashboard()">رجوع إلى حسابي</button>
-      <h2>طلب خدمة جديدة</h2>
-      <div id="serviceCategories" class="service-accordion"></div>
-    </div>
-    <div id="subServicesPanel" class="panel hidden"><h3 id="selectedCategoryTitle"></h3><div id="subServices" class="services-grid"></div></div>
-    <div id="requestPanel" class="panel hidden">
-      <h3>تفاصيل الطلب</h3>
-      <div class="grid">
-        <div><label>القسم</label><input id="reqCategory" readonly></div>
-        <div><label>الخدمة</label><input id="reqService" readonly></div>
-        <div><label>المنطقة</label><input id="reqArea"></div>
-        <div><label>موعد مناسب</label><input id="reqTime"></div>
-      </div>
-      <label>تفاصيل الطلب</label><textarea id="reqDetails"></textarea>
-      <label>صور المكان — اختياري</label><input id="reqImages" type="file" accept="image/*" multiple>
-      <button onclick="createRequest()">إرسال الطلب والبحث عن مقدم خدمة</button><div id="requestMsg"></div>
-    </div>
-  </section>
-
-  <section id="providersPublic" class="screen">
-    <div class="panel"><button class="light" onclick="returnToDashboard()">رجوع</button><h2>مقدمو الخدمة المفعّلون</h2><div id="publicProviders"></div></div>
-  </section>
-
-  <section id="owner" class="screen">
-    <div class="panel">
-      <button class="light" onclick="showScreen('home')">رجوع</button>
-      <h2>لوحة المالك</h2>
-      <div class="grid3">
-        <div class="kpi">مقدمو الخدمة<b id="kpiProviders">0</b></div>
-        <div class="kpi">التجار<b id="kpiMerchants">0</b></div>
-        <div class="kpi">العملاء<b id="kpiClients">0</b></div>
-      </div>
-      <div class="owner-tabs" style="margin-top:10px">
-        <button onclick="showOwnerTab('providers')">مقدمو الخدمة</button>
-        <button onclick="showOwnerTab('merchants')">التجار</button>
-        <button onclick="showOwnerTab('clients')">العملاء</button>
-      </div>
-      <div class="owner-preview">
-        <b>الدخول إلى كل الواجهات بصلاحيات المالك</b>
-        <div class="small">تقدر تدخل الواجهة الكاملة للعميل أو مقدم الخدمة أو التاجر بصلاحيات المالك، وتفتح الصفحات والأزرار كاملة، ثم ترجع للوحة المالك.</div>
-        <div class="preview-actions">
-          <button onclick="ownerPreviewRole('client')">فتح واجهة العميل كمالك</button>
-          <button onclick="ownerPreviewRole('provider')">فتح واجهة مقدم الخدمة كمالك</button>
-          <button onclick="ownerPreviewRole('merchant')">فتح واجهة التاجر كمالك</button>
-        </div>
-        <div id="ownerInterfacePreview" class="owner-preview-body">اختر الواجهة التي تريد معاينتها.</div>
-      </div>
-    </div>
-    <div id="ownerProviders" class="panel"></div>
-    <div id="ownerMerchants" class="panel hidden"></div>
-    <div id="ownerClients" class="panel hidden"></div>
-
-    <div id="ownerProviderEditor" class="panel hidden">
-      <div class="inline"><h2 style="margin:0">تعديل بيانات مقدم الخدمة</h2><button class="light" onclick="closeProviderEditor()">إغلاق</button></div>
-      <input id="editProviderId" type="hidden">
-      <div class="grid">
-        <div><label>الاسم الكامل</label><input id="editFullName"></div>
-        <div><label>رقم الهوية / الرقم الوطني</label><input id="editNationalId"></div>
-        <div><label>رقم الهاتف</label><input id="editPhone"></div>
-        <div><label>رقم بديل</label><input id="editAltPhone"></div>
-        <div><label>الإيميل</label><input id="editEmail" type="email"></div>
-        <div><label>العنوان الدقيق</label><input id="editAddress"></div>
-        <div><label>المنطقة العامة</label><input id="editArea"></div>
-        <div><label>المهنة</label><input id="editJob"></div>
-        <div><label>سنوات الخبرة</label><input id="editExperience" type="number" min="0"></div>
-        <div><label>عدد الأعمال السابقة</label><input id="editJobsDone" type="number" min="0"></div>
-        <div><label>الأعمال المكتملة داخل التطبيق</label><input id="editCompletedJobs" type="number" min="0"></div>
-        <div><label>التقييم</label><input id="editRating" type="number" min="0" max="5" step="0.1"></div>
-        <div><label>حالة الحساب</label><select id="editProviderStatus"><option value="pending">قيد المراجعة</option><option value="approved">مفعّل</option></select></div>
-      </div>
-      <label>نبذة عن مقدم الخدمة</label><textarea id="editBio" placeholder="نبذة تظهر في ملف مقدم الخدمة"></textarea>
-      <label>ملاحظات الإدارة الداخلية</label><textarea id="editAdminNotes" placeholder="هذه الملاحظات للإدارة فقط"></textarea>
-      <div class="grid">
-        <div><label>استبدال صورة الهوية — اختياري</label><input id="editIdImage" type="file" accept="image/*"></div>
-        <div><label>استبدال صور الأعمال — اختياري</label><input id="editWorkImages" type="file" accept="image/*" multiple></div>
-      </div>
-      <div class="privacy">هذه شاشة إدارة تجريبية. في النسخة الحقيقية تُحفظ بيانات الهوية والصور الحساسة على خادم آمن بصلاحيات الإدارة فقط.</div>
-      <div class="grid"><button class="success" onclick="saveProviderEdits()">حفظ التعديلات</button><button class="secondary" onclick="closeProviderEditor()">إلغاء</button></div>
-      <div id="editProviderMsg"></div>
-    </div>
-
-    <div class="panel"><h3>سجل التدقيق</h3><div id="auditView" class="ledger"></div></div>
-  </section>
+</div>
+</section>
+<section class="screen" id="owner">
+<button aria-label="فتح القائمة" class="client-menu-btn universal-menu-btn" onclick="openClientDrawer()" type="button">
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+<span class="hamb-line"></span>
+</button>
+<div class="panel">
+<button class="light back-btn" onclick="showScreen('home')">رجوع</button>
+<h2>لوحة المالك</h2>
+<div class="grid3">
+<div class="kpi">مقدمو الخدمة<b id="kpiProviders">0</b></div>
+<div class="kpi">التجار<b id="kpiMerchants">0</b></div>
+<div class="kpi">العملاء<b id="kpiClients">0</b></div>
+</div>
+<div class="owner-tabs" style="margin-top:10px">
+<button onclick="showOwnerTab('providers')">مقدمو الخدمة</button>
+<button onclick="showOwnerTab('merchants')">التجار</button>
+<button onclick="showOwnerTab('clients')">العملاء</button>
+<button onclick="showOwnerTab('lowest')">أقل الأسعار ومصادرها</button>
+<button onclick="showOwnerTab('payments')">التحصيل والمدفوعات</button>
 </div>
 
+</div>
+<div class="panel" id="ownerProviders"></div>
+<div class="panel hidden" id="ownerMerchants"></div>
+<div class="panel hidden" id="ownerClients"></div>
+<div class="panel hidden" id="ownerCentralPayments">
+<h2>التحصيل المركزي والمدفوعات</h2>
+<div class="payment-central">
+<b>حساب اخدمني المركزي</b>
+<div class="small">كل وسيلة دفع مرتبطة لاحقًا بحساب تاجر/تسوية مركزي واحد. كل عملية تُحفظ برقم طلب وطريقة دفع ومبلغ وحالة تسوية.</div>
+</div>
+<div class="pay-summary">
+<div><b>بطاقات</b><br/><span class="small">Visa / Mastercard</span></div>
+<div><b>دفع رقمي</b><br/><span class="small">Google Pay / Apple Pay</span></div>
+<div><b>أنظمة الأردن</b><br/><span class="small">CliQ / JoMoPay / eFAWATEERcom</span></div>
+</div>
+<div class="payment-demo-note">لا توجد أموال حقيقية في هذه النسخة. هذا تصميم لمسار التحصيل فقط.</div>
+</div>
+<div class="panel hidden" id="ownerLowestPrices">
+<h2>أقل الأسعار ومصادرها — للإدارة فقط</h2>
+<div class="privacy">هذه الصفحة للإدارة فقط. نعرض فقط المصادر التي يوجد لها رقم تواصل كامل منشور يمكن للإدارة الاتصال به. لا نعرض أرقامًا ناقصة أو مخفية، ولا نخمن أرقامًا أو عناوين غير منشورة.</div>
+<div class="owner-low-tools">
+<input id="ownerLowSearch" oninput="renderOwnerLowestPrices()" placeholder="ابحث عن خدمة..."/>
+<select id="ownerLowCategory" onchange="renderOwnerLowestPrices()"><option value="">كل التصنيفات</option></select>
+</div>
+<div id="ownerLowestList"></div>
+</div>
+<div class="panel hidden" id="ownerProviderEditor">
+<div class="inline"><h2 style="margin:0">تعديل بيانات مقدم الخدمة</h2><button class="light" onclick="closeProviderEditor()">إغلاق</button></div>
+<input id="editProviderId" type="hidden"/>
+<div class="grid">
+<div><label>الاسم الكامل</label><input id="editFullName"/></div>
+<div><label>رقم الهوية / الرقم الوطني</label><input id="editNationalId"/></div>
+<div><label>رقم الهاتف</label><input id="editPhone"/></div>
+<div><label>رقم بديل</label><input id="editAltPhone"/></div>
+<div><label>الإيميل</label><input id="editEmail" type="email"/></div>
+<div><label>العنوان الدقيق</label><input id="editAddress"/></div>
+<div><label>المنطقة العامة</label><input id="editArea"/></div>
+<div><label>المهنة</label><input id="editJob"/></div>
+<div><label>سنوات الخبرة</label><input id="editExperience" min="0" type="number"/></div>
+<div><label>عدد الأعمال السابقة</label><input id="editJobsDone" min="0" type="number"/></div>
+<div><label>الأعمال المكتملة داخل التطبيق</label><input id="editCompletedJobs" min="0" type="number"/></div>
+<div><label>التقييم</label><input id="editRating" max="5" min="0" step="0.1" type="number"/></div>
+<div><label>حالة الحساب</label><select id="editProviderStatus"><option value="pending">قيد المراجعة</option><option value="approved">مفعّل</option></select></div>
+</div>
+<label>نبذة عن مقدم الخدمة</label><textarea id="editBio" placeholder="نبذة تظهر في ملف مقدم الخدمة"></textarea>
+<label>ملاحظات الإدارة الداخلية</label><textarea id="editAdminNotes" placeholder="هذه الملاحظات للإدارة فقط"></textarea>
+<div class="grid">
+<div><label>استبدال صورة الهوية — اختياري</label><input accept="image/*" id="editIdImage" type="file"/></div>
+<div><label>استبدال صور الأعمال — اختياري</label><input accept="image/*" id="editWorkImages" multiple="" type="file"/></div>
+</div>
+<div class="privacy">هذه شاشة إدارة تجريبية. في النسخة الحقيقية تُحفظ بيانات الهوية والصور الحساسة على خادم آمن بصلاحيات الإدارة فقط.</div>
+<div class="grid"><button class="success" onclick="saveProviderEdits()">حفظ التعديلات</button><button class="secondary" onclick="closeProviderEditor()">إلغاء</button></div>
+<div id="editProviderMsg"></div>
+</div>
+<div class="panel"><h3>سجل التدقيق</h3><div class="ledger" id="auditView"></div></div>
+</section>
+</div>
 <script>
 
 const IKHDIMNI_REQUIREMENTS = Object.freeze({
@@ -363,6 +846,143 @@ const COUNTRIES = ["AD", "AE", "AF", "AG", "AI", "AL", "AM", "AO", "AQ", "AR", "
 const ARAB_COUNTRIES = ['JO','SA','AE','PS','EG','IQ','SY','LB','KW','QA','BH','OM','YE','MA','DZ','TN','LY','SD','SO','DJ','KM','MR'];
 function flagUrl(code){return `https://flagcdn.com/w80/${String(code).toLowerCase()}.png`}
 const SERVICE_CATALOG = {"خدمات منزلية وصيانة": {"icon": "🏠", "items": ["صيانة منزلية عامة", "تركيب وفك الأثاث", "صيانة الأبواب", "صيانة الشبابيك", "تركيب الستائر", "تعليق اللوحات والتلفاز", "تركيب الرفوف", "إصلاح الأقفال", "صيانة المطابخ", "صيانة الحمامات", "عزل الأسطح", "عزل الرطوبة", "مكافحة تسرب المياه", "تنسيق الحدائق المنزلية", "قص الأشجار والعناية بالنباتات", "مكافحة الحشرات", "صيانة المسابح", "تركيب شبك الحماية", "صيانة الخزائن", "أعمال منزلية متنوعة"]}, "إنشاءات وتشطيبات": {"icon": "🏗️", "items": ["مقاولات عامة", "بناء طوب وبلوك", "صب خرسانة", "حدادة تسليح", "نجارة طوبار", "هدم وإزالة", "حفر وردم", "دهان داخلي", "دهان خارجي", "دهانات ديكورية", "بلاط وسيراميك", "بورسلان", "رخام وجرانيت", "قصارة ولياسة", "جبس بورد", "أسقف مستعارة", "ديكورات جبسية", "نجارة أبواب", "نجارة مطابخ", "نجارة أثاث ثابت", "ألمنيوم", "واجهات زجاجية", "زجاج ومرايا", "واجهات حجر", "تركيب حجر", "عزل مائي", "عزل حراري", "عزل صوتي", "تمديد مواسير", "صرف صحي", "تمديدات كهربائية", "إنارة", "أعمال حديد ولحام", "درابزين", "مظلات", "أرضيات باركيه ولامينيت", "إيبوكسي", "تركيب ورق جدران", "تنسيق مواقع", "ترميم وتجديد"]}, "خدمات صناعية": {"icon": "🏭", "items": ["صيانة آلات صناعية", "صيانة خطوط إنتاج", "صيانة وقائية", "صيانة تصحيحية", "ميكانيكا صناعية", "كهرباء صناعية", "تحكم صناعي", "PLC وأنظمة تحكم", "محركات كهربائية", "مضخات", "ضواغط هواء", "هيدروليك", "نيوماتيك", "لحام كهربائي", "لحام أرجون", "لحام CO2", "قص معادن", "خراطة", "تفريز", "تصنيع معدني", "تركيب معدات", "محاذاة المعدات", "سيور ونواقل", "رولمان بلي ومحاور", "صيانة مولدات", "صيانة غلايات", "تبريد صناعي", "تهوية صناعية", "سلامة صناعية", "فحص معدات", "معايرة", "تشخيص أعطال", "تشحيم صناعي", "صيانة رافعات ومعدات ثقيلة"]}, "خدمات طبية ورعاية منزلية": {"icon": "🩺", "items": ["تمريض منزلي", "رعاية كبار السن", "مرافقة مريض", "عناية بالجروح", "إعطاء حقن وأدوية بوصفة", "قياس العلامات الحيوية", "رعاية ما بعد العمليات", "علاج طبيعي منزلي", "علاج وظيفي منزلي", "علاج نطق منزلي", "رعاية ذوي الإعاقة", "مساعدة يومية للمريض", "تغيير الضمادات", "رعاية مزمنة", "رعاية تلطيفية", "سحب عينات منزلية عبر جهة مرخصة"]}, "خدمات موارد بشرية": {"icon": "👥", "items": ["استقطاب وتوظيف", "فرز السير الذاتية", "كتابة سيرة ذاتية", "مراجعة سيرة ذاتية", "تحسين ملف LinkedIn", "تجهيز للمقابلات", "إجراء مقابلات", "تقييم المرشحين", "كتابة الوصف الوظيفي", "تحليل الوظائف", "بناء الهيكل التنظيمي", "تخطيط القوى العاملة", "إدارة المواهب", "تخطيط التعاقب الوظيفي", "تقييم الأداء", "تصميم مؤشرات الأداء KPI", "التدريب والتطوير", "تحليل الاحتياجات التدريبية", "إعداد سياسات الموارد البشرية", "إجراءات شؤون الموظفين", "الرواتب والمزايا", "إدارة الإجازات والحضور", "تهيئة الموظف الجديد Onboarding", "إنهاء الخدمة Offboarding", "علاقات الموظفين", "حل النزاعات الوظيفية", "استشارات موارد بشرية", "ثقافة المؤسسة", "الارتباط الوظيفي", "استبيانات الموظفين"]}, "سيارات": {"icon": "🚗", "items": ["ميكانيك عام", "كهرباء سيارات", "فحص كمبيوتر", "تبديل زيت وفلاتر", "فرامل", "تعليق ومساعدات", "دركسون وتوجيه", "إطارات وبنشر", "ترصيص", "ميزان سيارات", "بطارية وشحن", "دينمو وستارتر", "تبريد وراديتر", "تكييف سيارات", "عادم وشكمان", "ناقل حركة وجير", "كلتش", "محرك", "حقن وقود", "تجليس وسمكرة", "دهان سيارات", "بوليش", "حماية طلاء", "تظليل زجاج", "زجاج سيارات", "أقفال ومفاتيح سيارات", "إنقاذ على الطريق", "سحب سيارات", "غسيل سيارات", "تنظيف داخلي", "تنظيف بخار", "فحص قبل الشراء", "صيانة دورية"]}, "تنظيف": {"icon": "🧹", "items": ["تنظيف منازل", "تنظيف شقق", "تنظيف فلل", "تنظيف مكاتب", "تنظيف محلات", "تنظيف بعد البناء", "تنظيف بعد الانتقال", "تنظيف زجاج", "تنظيف واجهات", "تنظيف سجاد", "تنظيف موكيت", "تنظيف كنب", "تنظيف مراتب", "تعقيم", "تنظيف خزانات مياه", "تنظيف مطابخ", "تنظيف حمامات", "تنظيف عميق"]}, "نقل وأثاث": {"icon": "🚚", "items": ["نقل أثاث", "نقل منازل", "نقل مكاتب", "تحميل وتنزيل", "تغليف أثاث", "فك وتركيب أثاث", "رفع أثاث", "نقل أجهزة كهربائية", "نقل مستودعات", "تخزين مؤقت", "توصيل بضائع", "نقل داخلي بين المدن"]}, "كهرباء وطاقة": {"icon": "⚡", "items": ["كهربائي منازل", "تمديدات كهربائية", "لوحات كهرباء", "قواطع وحماية", "إنارة داخلية", "إنارة خارجية", "أعطال وقصر كهربائي", "تأريض", "مولدات كهرباء", "UPS", "طاقة شمسية", "ألواح شمسية", "انفرتر", "بطاريات طاقة", "سخانات كهربائية", "سخانات شمسية", "عدادات ومراقبة استهلاك"]}, "سباكة ومياه": {"icon": "🚰", "items": ["سباكة منازل", "تسريب مياه", "كشف تسرب", "تمديد مياه", "صرف صحي", "تسليك مجاري", "تركيب خلاطات", "تركيب مغاسل", "تركيب مراحيض", "تركيب مضخات مياه", "صيانة خزانات", "عوامات خزانات", "فلاتر مياه", "سخانات مياه", "تمديدات مطابخ", "تمديدات حمامات"]}, "تكييف وتبريد": {"icon": "❄️", "items": ["تركيب مكيف", "فك ونقل مكيف", "صيانة مكيف", "تنظيف مكيف", "شحن غاز تبريد", "كشف تسريب غاز", "مكيف مركزي", "دكت تكييف", "ثلاجات منزلية", "فريزرات", "برادات عرض", "غرف تبريد", "تبريد تجاري", "تبريد صناعي", "صيانة ضواغط تبريد"]}, "تقنية وإلكترونيات": {"icon": "💻", "items": ["صيانة كمبيوتر", "صيانة لابتوب", "تركيب ويندوز وبرامج", "نسخ احتياطي", "استعادة بيانات", "شبكات منزلية", "شبكات شركات", "واي فاي", "راوترات", "كاميرات مراقبة", "أنظمة دخول", "إنذار وحماية", "صيانة طابعات", "صيانة شاشات", "صيانة تلفزيونات", "صيانة إلكترونيات", "تركيب أجهزة ذكية", "منازل ذكية", "دعم تقني", "إعداد بريد وأنظمة مكتبية"]}, "تعليم وتدريب": {"icon": "📚", "items": ["دروس خصوصية", "رياضيات", "فيزياء", "كيمياء", "لغة عربية", "لغة إنجليزية", "لغات أخرى", "تدريب كمبيوتر", "برمجة", "تصميم", "محاسبة", "مهارات مكتبية", "تدريب مهني", "تحضير امتحانات", "تدريب مقابلات", "مهارات تواصل"]}, "خدمات شخصية": {"icon": "✨", "items": ["حلاقة منزلية", "تجميل منزلي", "خياطة وتعديل ملابس", "كي ملابس", "تصوير", "تصوير مناسبات", "مونتاج", "تنظيم مناسبات", "تزيين حفلات", "طبخ منزلي", "مساعدة منزلية", "رعاية أطفال", "رعاية حيوانات أليفة"]}};
+const JORDAN_PRICE_DATA = {"صيانة منزلية عامة":{"low":5,"avg":17.5,"high":30,"unit":"للزيارة"},"تركيب وفك الأثاث":{"low":10,"avg":20.0,"high":30,"unit":"للقطعة/الخدمة"},"صيانة الأبواب":{"low":10,"avg":22.5,"high":35,"unit":"للزيارة"},"صيانة الشبابيك":{"low":10,"avg":22.5,"high":35,"unit":"للزيارة"},"تركيب الستائر":{"low":8,"avg":16.5,"high":25,"unit":"للخدمة"},"تعليق اللوحات والتلفاز":{"low":8,"avg":16.5,"high":25,"unit":"للخدمة"},"تركيب الرفوف":{"low":8,"avg":16.5,"high":25,"unit":"للخدمة"},"إصلاح الأقفال":{"low":10,"avg":20.0,"high":30,"unit":"للقفل/الزيارة"},"صيانة المطابخ":{"low":10,"avg":30.0,"high":50,"unit":"للزيارة"},"صيانة الحمامات":{"low":10,"avg":35.0,"high":60,"unit":"للزيارة"},"عزل الأسطح":{"low":3.5,"avg":5.0,"high":7,"unit":"م²"},"عزل الرطوبة":{"low":4,"avg":7.0,"high":10,"unit":"م²"},"مكافحة تسرب المياه":{"low":15,"avg":32.5,"high":50,"unit":"للزيارة"},"تنسيق الحدائق المنزلية":{"low":10,"avg":30.0,"high":50,"unit":"للزيارة"},"قص الأشجار والعناية بالنباتات":{"low":10,"avg":55.0,"high":100,"unit":"للخدمة"},"مكافحة الحشرات":{"low":20,"avg":27.5,"high":35,"unit":"للزيارة"},"صيانة المسابح":{"low":30,"avg":65.0,"high":100,"unit":"للزيارة"},"تركيب شبك الحماية":{"low":4,"avg":8.0,"high":12,"unit":"م²"},"صيانة الخزائن":{"low":10,"avg":25.0,"high":40,"unit":"للزيارة"},"أعمال منزلية متنوعة":{"low":5,"avg":17.5,"high":30,"unit":"للزيارة"},"مقاولات عامة":{"low":28,"avg":36.5,"high":45,"unit":"م² أجرة عظم"},"بناء طوب وبلوك":{"low":3,"avg":5.0,"high":7,"unit":"م² أجرة بناء"},"صب خرسانة":{"low":42,"avg":48.5,"high":55,"unit":"م³ خرسانة جاهزة مع ضخ"},"حدادة تسليح":{"low":60,"avg":85.0,"high":110,"unit":"طن أجرة تركيب"},"نجارة طوبار":{"low":4,"avg":6.5,"high":9,"unit":"م²"},"هدم وإزالة":{"low":4,"avg":9.5,"high":15,"unit":"م²"},"حفر وردم":{"low":3,"avg":6.5,"high":10,"unit":"م³"},"دهان داخلي":{"low":3,"avg":5.5,"high":8,"unit":"م²"},"دهان خارجي":{"low":4,"avg":7.0,"high":10,"unit":"م²"},"دهانات ديكورية":{"low":6,"avg":12.0,"high":18,"unit":"م²"},"بلاط وسيراميك":{"low":2,"avg":3.0,"high":4,"unit":"م² أجرة تركيب"},"بورسلان":{"low":2.5,"avg":4.0,"high":6,"unit":"م² أجرة تركيب"},"رخام وجرانيت":{"low":4,"avg":8.0,"high":12,"unit":"م² أجرة تركيب"},"قصارة ولياسة":{"low":3,"avg":4.0,"high":5.5,"unit":"م²"},"جبس بورد":{"low":7,"avg":12.5,"high":18,"unit":"م²"},"أسقف مستعارة":{"low":12,"avg":20.0,"high":28,"unit":"م²"},"ديكورات جبسية":{"low":18,"avg":31.5,"high":45,"unit":"م²"},"نجارة أبواب":{"low":25,"avg":52.5,"high":80,"unit":"للباب/أجرة"},"نجارة مطابخ":{"low":40,"avg":65.0,"high":90,"unit":"متر طولي/أجرة"},"نجارة أثاث ثابت":{"low":40,"avg":80.0,"high":120,"unit":"م²/أجرة"},"ألمنيوم":{"low":60,"avg":95.0,"high":130,"unit":"م²"},"واجهات زجاجية":{"low":70,"avg":115.0,"high":160,"unit":"م²"},"زجاج ومرايا":{"low":15,"avg":32.5,"high":50,"unit":"م²"},"واجهات حجر":{"low":20,"avg":32.5,"high":45,"unit":"م² مواد+تركيب"},"تركيب حجر":{"low":8,"avg":11.5,"high":15,"unit":"م² أجرة تركيب"},"عزل مائي":{"low":3.5,"avg":5.0,"high":7,"unit":"م²"},"عزل حراري":{"low":4.5,"avg":7.0,"high":10,"unit":"م²"},"عزل صوتي":{"low":8,"avg":15.0,"high":22,"unit":"م²"},"تمديد مواسير":{"low":4,"avg":8.0,"high":12,"unit":"متر طولي/أجرة"},"صرف صحي":{"low":8,"avg":16.5,"high":25,"unit":"نقطة/أجرة"},"تمديدات كهربائية":{"low":6,"avg":9.0,"high":12,"unit":"م² تأسيس"},"إنارة":{"low":5,"avg":10.0,"high":15,"unit":"نقطة/أجرة"},"أعمال حديد ولحام":{"low":10,"avg":22.5,"high":35,"unit":"للساعة"},"درابزين":{"low":20,"avg":37.5,"high":55,"unit":"متر طولي"},"مظلات":{"low":15,"avg":32.5,"high":50,"unit":"م²"},"أرضيات باركيه ولامينيت":{"low":5.5,"avg":10.0,"high":15,"unit":"م²"},"إيبوكسي":{"low":8,"avg":14.0,"high":20,"unit":"م²"},"تركيب ورق جدران":{"low":3,"avg":5.5,"high":8,"unit":"م² أجرة"},"تنسيق مواقع":{"low":10,"avg":30.0,"high":50,"unit":"م²/حسب النطاق"},"ترميم وتجديد":{"low":150,"avg":275.0,"high":400,"unit":"م² تشطيب/تجديد"},"صيانة آلات صناعية":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"صيانة خطوط إنتاج":{"low":40,"avg":95.0,"high":150,"unit":"للساعة"},"صيانة وقائية":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"صيانة تصحيحية":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"ميكانيكا صناعية":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"كهرباء صناعية":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"تحكم صناعي":{"low":40,"avg":95.0,"high":150,"unit":"للساعة"},"PLC وأنظمة تحكم":{"low":40,"avg":95.0,"high":150,"unit":"للساعة"},"محركات كهربائية":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة/أجرة"},"مضخات":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة/أجرة"},"ضواغط هواء":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة/أجرة"},"هيدروليك":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة/أجرة"},"نيوماتيك":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة/أجرة"},"لحام كهربائي":{"low":10,"avg":17.5,"high":25,"unit":"للساعة"},"لحام أرجون":{"low":15,"avg":25.0,"high":35,"unit":"للساعة"},"لحام CO2":{"low":15,"avg":25.0,"high":35,"unit":"للساعة"},"قص معادن":{"low":10,"avg":25.0,"high":40,"unit":"للساعة"},"خراطة":{"low":10,"avg":25.0,"high":40,"unit":"للساعة"},"تفريز":{"low":10,"avg":25.0,"high":40,"unit":"للساعة"},"تصنيع معدني":{"low":20,"avg":40.0,"high":60,"unit":"للساعة"},"تركيب معدات":{"low":50,"avg":125.0,"high":200,"unit":"للزيارة"},"محاذاة المعدات":{"low":50,"avg":125.0,"high":200,"unit":"للزيارة"},"سيور ونواقل":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة"},"رولمان بلي ومحاور":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة"},"صيانة مولدات":{"low":25,"avg":72.5,"high":120,"unit":"للزيارة"},"صيانة غلايات":{"low":40,"avg":100.0,"high":160,"unit":"للزيارة"},"تبريد صناعي":{"low":40,"avg":110.0,"high":180,"unit":"للزيارة"},"تهوية صناعية":{"low":40,"avg":110.0,"high":180,"unit":"للزيارة"},"سلامة صناعية":{"low":30,"avg":75.0,"high":120,"unit":"للزيارة/الفحص"},"فحص معدات":{"low":30,"avg":75.0,"high":120,"unit":"للزيارة/الفحص"},"معايرة":{"low":30,"avg":75.0,"high":120,"unit":"للزيارة/الفحص"},"تشخيص أعطال":{"low":20,"avg":50.0,"high":80,"unit":"للساعة"},"تشحيم صناعي":{"low":15,"avg":37.5,"high":60,"unit":"للزيارة"},"صيانة رافعات ومعدات ثقيلة":{"low":60,"avg":155.0,"high":250,"unit":"للزيارة"},"تمريض منزلي":{"low":10,"avg":30.0,"high":50,"unit":"للزيارة"},"رعاية كبار السن":{"low":17,"avg":33.5,"high":50,"unit":"للوردية/اليوم"},"مرافقة مريض":{"low":15,"avg":25.0,"high":35,"unit":"للوردية"},"عناية بالجروح":{"low":15,"avg":25.0,"high":35,"unit":"للزيارة"},"إعطاء حقن وأدوية بوصفة":{"low":5,"avg":10.0,"high":15,"unit":"للزيارة"},"قياس العلامات الحيوية":{"low":5,"avg":10.0,"high":15,"unit":"للزيارة"},"رعاية ما بعد العمليات":{"low":25,"avg":42.5,"high":60,"unit":"للزيارة"},"علاج طبيعي منزلي":{"low":20,"avg":32.5,"high":45,"unit":"للجلسة"},"علاج وظيفي منزلي":{"low":20,"avg":32.5,"high":45,"unit":"للجلسة"},"علاج نطق منزلي":{"low":20,"avg":27.5,"high":35,"unit":"للجلسة"},"رعاية ذوي الإعاقة":{"low":20,"avg":35.0,"high":50,"unit":"للوردية"},"مساعدة يومية للمريض":{"low":20,"avg":30.0,"high":40,"unit":"لليوم/الوردية"},"تغيير الضمادات":{"low":10,"avg":17.5,"high":25,"unit":"للزيارة"},"رعاية مزمنة":{"low":25,"avg":37.5,"high":50,"unit":"للزيارة"},"رعاية تلطيفية":{"low":30,"avg":45.0,"high":60,"unit":"للزيارة"},"سحب عينات منزلية عبر جهة مرخصة":{"low":10,"avg":17.5,"high":25,"unit":"للزيارة"},"استقطاب وتوظيف":{"low":75,"avg":237.5,"high":400,"unit":"للوظيفة/المشروع"},"فرز السير الذاتية":{"low":20,"avg":60.0,"high":100,"unit":"لكل 50 سيرة"},"كتابة سيرة ذاتية":{"low":3,"avg":34.5,"high":66,"unit":"للسيرة"},"مراجعة سيرة ذاتية":{"low":3,"avg":16.5,"high":30,"unit":"للسيرة"},"تحسين ملف LinkedIn":{"low":10,"avg":40.0,"high":70,"unit":"للملف"},"تجهيز للمقابلات":{"low":15,"avg":42.5,"high":70,"unit":"للجلسة"},"إجراء مقابلات":{"low":20,"avg":50.0,"high":80,"unit":"للمقابلة/جلسة"},"تقييم المرشحين":{"low":25,"avg":62.5,"high":100,"unit":"للمرشح"},"كتابة الوصف الوظيفي":{"low":15,"avg":37.5,"high":60,"unit":"للوصف"},"تحليل الوظائف":{"low":40,"avg":95.0,"high":150,"unit":"للوظيفة"},"بناء الهيكل التنظيمي":{"low":100,"avg":300.0,"high":500,"unit":"للمشروع"},"تخطيط القوى العاملة":{"low":100,"avg":300.0,"high":500,"unit":"للمشروع"},"إدارة المواهب":{"low":100,"avg":350.0,"high":600,"unit":"للمشروع"},"تخطيط التعاقب الوظيفي":{"low":100,"avg":350.0,"high":600,"unit":"للمشروع"},"تقييم الأداء":{"low":50,"avg":150.0,"high":250,"unit":"للنظام/المشروع"},"تصميم مؤشرات الأداء KPI":{"low":50,"avg":150.0,"high":250,"unit":"للقسم/المشروع"},"التدريب والتطوير":{"low":20,"avg":70.0,"high":120,"unit":"لساعة التدريب"},"تحليل الاحتياجات التدريبية":{"low":75,"avg":187.5,"high":300,"unit":"للمشروع"},"إعداد سياسات الموارد البشرية":{"low":100,"avg":350.0,"high":600,"unit":"للمشروع"},"إجراءات شؤون الموظفين":{"low":30,"avg":90.0,"high":150,"unit":"للخدمة"},"الرواتب والمزايا":{"low":40,"avg":120.0,"high":200,"unit":"شهري/شركة صغيرة"},"إدارة الإجازات والحضور":{"low":30,"avg":90.0,"high":150,"unit":"شهري/شركة صغيرة"},"تهيئة الموظف الجديد Onboarding":{"low":20,"avg":50.0,"high":80,"unit":"للموظف"},"إنهاء الخدمة Offboarding":{"low":20,"avg":50.0,"high":80,"unit":"للموظف"},"علاقات الموظفين":{"low":30,"avg":90.0,"high":150,"unit":"للجلسة/الحالة"},"حل النزاعات الوظيفية":{"low":30,"avg":90.0,"high":150,"unit":"للجلسة/الحالة"},"استشارات موارد بشرية":{"low":35,"avg":87.5,"high":140,"unit":"للساعة"},"ثقافة المؤسسة":{"low":75,"avg":212.5,"high":350,"unit":"للمشروع"},"الارتباط الوظيفي":{"low":75,"avg":212.5,"high":350,"unit":"للمشروع"},"استبيانات الموظفين":{"low":75,"avg":212.5,"high":350,"unit":"للمشروع"},"ميكانيك عام":{"low":15,"avg":37.5,"high":60,"unit":"للزيارة/أجرة"},"كهرباء سيارات":{"low":10,"avg":30.0,"high":50,"unit":"للخدمة"},"فحص كمبيوتر":{"low":20,"avg":32.5,"high":45,"unit":"للفحص"},"تبديل زيت وفلاتر":{"low":5,"avg":10.0,"high":15,"unit":"أجرة يد"},"فرامل":{"low":15,"avg":27.5,"high":40,"unit":"أجرة يد"},"تعليق ومساعدات":{"low":20,"avg":40.0,"high":60,"unit":"أجرة يد"},"دركسون وتوجيه":{"low":20,"avg":40.0,"high":60,"unit":"أجرة يد"},"إطارات وبنشر":{"low":3,"avg":6.5,"high":10,"unit":"للإطار"},"ترصيص":{"low":5,"avg":10.0,"high":15,"unit":"للمركبة"},"ميزان سيارات":{"low":10,"avg":17.5,"high":25,"unit":"للفحص/الضبط"},"بطارية وشحن":{"low":5,"avg":10.0,"high":15,"unit":"أجرة خدمة"},"دينمو وستارتر":{"low":20,"avg":40.0,"high":60,"unit":"أجرة يد"},"تبريد وراديتر":{"low":15,"avg":32.5,"high":50,"unit":"أجرة يد"},"تكييف سيارات":{"low":15,"avg":37.5,"high":60,"unit":"أجرة خدمة"},"عادم وشكمان":{"low":15,"avg":32.5,"high":50,"unit":"أجرة يد"},"ناقل حركة وجير":{"low":50,"avg":125.0,"high":200,"unit":"أجرة فحص/صيانة"},"كلتش":{"low":50,"avg":100.0,"high":150,"unit":"أجرة يد"},"محرك":{"low":80,"avg":190.0,"high":300,"unit":"أجرة صيانة"},"حقن وقود":{"low":20,"avg":45.0,"high":70,"unit":"أجرة فحص/تنظيف"},"تجليس وسمكرة":{"low":80,"avg":165.0,"high":250,"unit":"للجزء/العمل"},"دهان سيارات":{"low":100,"avg":225.0,"high":350,"unit":"للعمل/الجزء"},"بوليش":{"low":20,"avg":40.0,"high":60,"unit":"للمركبة"},"حماية طلاء":{"low":70,"avg":185.0,"high":300,"unit":"للمركبة"},"تظليل زجاج":{"low":30,"avg":65.0,"high":100,"unit":"للمركبة"},"زجاج سيارات":{"low":20,"avg":50.0,"high":80,"unit":"أجرة تركيب"},"أقفال ومفاتيح سيارات":{"low":20,"avg":50.0,"high":80,"unit":"للخدمة"},"إنقاذ على الطريق":{"low":20,"avg":40.0,"high":60,"unit":"للخدمة"},"سحب سيارات":{"low":20,"avg":45.0,"high":70,"unit":"للمشوار"},"غسيل سيارات":{"low":5,"avg":12.5,"high":20,"unit":"للمركبة"},"تنظيف داخلي":{"low":10,"avg":22.5,"high":35,"unit":"للمركبة"},"تنظيف بخار":{"low":15,"avg":27.5,"high":40,"unit":"للمركبة"},"فحص قبل الشراء":{"low":25,"avg":47.5,"high":70,"unit":"للفحص"},"صيانة دورية":{"low":20,"avg":50.0,"high":80,"unit":"أجرة يد"},"تنظيف منازل":{"low":11,"avg":20.5,"high":30,"unit":"للزيارة"},"تنظيف شقق":{"low":11,"avg":20.5,"high":30,"unit":"للزيارة"},"تنظيف فلل":{"low":25,"avg":52.5,"high":80,"unit":"للزيارة"},"تنظيف مكاتب":{"low":15,"avg":32.5,"high":50,"unit":"للزيارة"},"تنظيف محلات":{"low":15,"avg":32.5,"high":50,"unit":"للزيارة"},"تنظيف بعد البناء":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة"},"تنظيف بعد الانتقال":{"low":25,"avg":62.5,"high":100,"unit":"للزيارة"},"تنظيف زجاج":{"low":10,"avg":25.0,"high":40,"unit":"للزيارة"},"تنظيف واجهات":{"low":20,"avg":60.0,"high":100,"unit":"للواجهة/الزيارة"},"تنظيف سجاد":{"low":10,"avg":20.0,"high":30,"unit":"للغرفة/القطعة"},"تنظيف موكيت":{"low":10,"avg":20.0,"high":30,"unit":"للغرفة/القطعة"},"تنظيف كنب":{"low":15,"avg":22.5,"high":30,"unit":"للطقم"},"تنظيف مراتب":{"low":8,"avg":14.0,"high":20,"unit":"للمرتبة"},"تعقيم":{"low":15,"avg":32.5,"high":50,"unit":"للزيارة"},"تنظيف خزانات مياه":{"low":12,"avg":31.0,"high":50,"unit":"للخزان"},"تنظيف مطابخ":{"low":10,"avg":20.0,"high":30,"unit":"للمكان"},"تنظيف حمامات":{"low":10,"avg":20.0,"high":30,"unit":"للمكان"},"تنظيف عميق":{"low":25,"avg":52.5,"high":80,"unit":"للزيارة"},"نقل أثاث":{"low":30,"avg":60.0,"high":90,"unit":"للنقلة داخل المدينة"},"نقل منازل":{"low":30,"avg":60.0,"high":90,"unit":"للنقلة داخل المدينة"},"نقل مكاتب":{"low":40,"avg":80.0,"high":120,"unit":"للنقلة"},"تحميل وتنزيل":{"low":10,"avg":25.0,"high":40,"unit":"للساعة/الفريق"},"تغليف أثاث":{"low":15,"avg":32.5,"high":50,"unit":"للخدمة"},"فك وتركيب أثاث":{"low":10,"avg":22.5,"high":35,"unit":"للقطعة/الخدمة"},"رفع أثاث":{"low":20,"avg":50.0,"high":80,"unit":"للخدمة"},"نقل أجهزة كهربائية":{"low":15,"avg":32.5,"high":50,"unit":"للمشوار"},"نقل مستودعات":{"low":80,"avg":190.0,"high":300,"unit":"للنقلة"},"تخزين مؤقت":{"low":20,"avg":50.0,"high":80,"unit":"شهري/حجم صغير"},"توصيل بضائع":{"low":5,"avg":17.5,"high":30,"unit":"للمشوار"},"نقل داخلي بين المدن":{"low":35,"avg":77.5,"high":120,"unit":"للمشوار"},"كهربائي منازل":{"low":7,"avg":13.5,"high":20,"unit":"للزيارة"},"لوحات كهرباء":{"low":20,"avg":50.0,"high":80,"unit":"أجرة تركيب/صيانة"},"قواطع وحماية":{"low":10,"avg":22.5,"high":35,"unit":"للخدمة"},"إنارة داخلية":{"low":5,"avg":12.5,"high":20,"unit":"للنقطة"},"إنارة خارجية":{"low":5,"avg":12.5,"high":20,"unit":"للنقطة"},"أعطال وقصر كهربائي":{"low":10,"avg":20.0,"high":30,"unit":"للزيارة"},"تأريض":{"low":20,"avg":50.0,"high":80,"unit":"للخدمة"},"مولدات كهرباء":{"low":25,"avg":72.5,"high":120,"unit":"للزيارة"},"UPS":{"low":15,"avg":37.5,"high":60,"unit":"للخدمة"},"طاقة شمسية":{"low":80,"avg":190.0,"high":300,"unit":"للمشروع/أجرة تركيب صغيرة"},"ألواح شمسية":{"low":80,"avg":190.0,"high":300,"unit":"للمشروع/أجرة تركيب صغيرة"},"انفرتر":{"low":20,"avg":50.0,"high":80,"unit":"للخدمة"},"بطاريات طاقة":{"low":20,"avg":50.0,"high":80,"unit":"للخدمة"},"سخانات كهربائية":{"low":10,"avg":22.5,"high":35,"unit":"للتركيب/الصيانة"},"سخانات شمسية":{"low":20,"avg":45.0,"high":70,"unit":"للتركيب/الصيانة"},"عدادات ومراقبة استهلاك":{"low":15,"avg":32.5,"high":50,"unit":"للتركيب"},"سباكة منازل":{"low":5,"avg":12.5,"high":20,"unit":"للزيارة"},"تسريب مياه":{"low":10,"avg":22.5,"high":35,"unit":"للزيارة"},"كشف تسرب":{"low":15,"avg":32.5,"high":50,"unit":"للفحص"},"تمديد مياه":{"low":5,"avg":10.0,"high":15,"unit":"نقطة/أجرة"},"تسليك مجاري":{"low":5,"avg":22.5,"high":40,"unit":"للخدمة"},"تركيب خلاطات":{"low":5,"avg":10.0,"high":15,"unit":"للقطعة"},"تركيب مغاسل":{"low":10,"avg":17.5,"high":25,"unit":"للقطعة"},"تركيب مراحيض":{"low":15,"avg":25.0,"high":35,"unit":"للقطعة"},"تركيب مضخات مياه":{"low":20,"avg":40.0,"high":60,"unit":"للتركيب"},"صيانة خزانات":{"low":15,"avg":32.5,"high":50,"unit":"للخزان"},"عوامات خزانات":{"low":5,"avg":10.0,"high":15,"unit":"للقطعة"},"فلاتر مياه":{"low":5,"avg":15.0,"high":25,"unit":"للخدمة"},"سخانات مياه":{"low":10,"avg":22.5,"high":35,"unit":"للتركيب/الصيانة"},"تمديدات مطابخ":{"low":20,"avg":50.0,"high":80,"unit":"للمكان/أجرة"},"تمديدات حمامات":{"low":20,"avg":50.0,"high":80,"unit":"للمكان/أجرة"},"تركيب مكيف":{"low":15,"avg":25.0,"high":35,"unit":"للمكيف"},"فك ونقل مكيف":{"low":20,"avg":30.0,"high":40,"unit":"للمكيف"},"صيانة مكيف":{"low":5,"avg":15.0,"high":25,"unit":"للمكيف"},"تنظيف مكيف":{"low":5,"avg":10.0,"high":15,"unit":"للمكيف"},"شحن غاز تبريد":{"low":10,"avg":20.0,"high":30,"unit":"للمكيف"},"كشف تسريب غاز":{"low":10,"avg":20.0,"high":30,"unit":"للفحص"},"مكيف مركزي":{"low":100,"avg":200.0,"high":300,"unit":"للزيارة/الصيانة"},"دكت تكييف":{"low":8,"avg":14.0,"high":20,"unit":"م²/أجرة"},"ثلاجات منزلية":{"low":10,"avg":25.0,"high":40,"unit":"للزيارة/أجرة"},"فريزرات":{"low":10,"avg":25.0,"high":40,"unit":"للزيارة/أجرة"},"برادات عرض":{"low":15,"avg":37.5,"high":60,"unit":"للزيارة"},"غرف تبريد":{"low":40,"avg":95.0,"high":150,"unit":"للزيارة"},"تبريد تجاري":{"low":30,"avg":75.0,"high":120,"unit":"للزيارة"},"صيانة ضواغط تبريد":{"low":30,"avg":75.0,"high":120,"unit":"للزيارة"},"صيانة كمبيوتر":{"low":2,"avg":18.5,"high":35,"unit":"للخدمة"},"صيانة لابتوب":{"low":2,"avg":18.5,"high":35,"unit":"للخدمة"},"تركيب ويندوز وبرامج":{"low":3,"avg":9.0,"high":15,"unit":"للجهاز"},"نسخ احتياطي":{"low":5,"avg":12.5,"high":20,"unit":"للخدمة"},"استعادة بيانات":{"low":20,"avg":60.0,"high":100,"unit":"للجهاز"},"شبكات منزلية":{"low":10,"avg":25.0,"high":40,"unit":"للزيارة"},"شبكات شركات":{"low":30,"avg":90.0,"high":150,"unit":"للزيارة/المشروع"},"واي فاي":{"low":5,"avg":15.0,"high":25,"unit":"للخدمة"},"راوترات":{"low":5,"avg":15.0,"high":25,"unit":"للخدمة"},"كاميرات مراقبة":{"low":20,"avg":35.0,"high":50,"unit":"أجرة تركيب/صيانة"},"أنظمة دخول":{"low":20,"avg":45.0,"high":70,"unit":"للخدمة"},"إنذار وحماية":{"low":20,"avg":45.0,"high":70,"unit":"للخدمة"},"صيانة طابعات":{"low":5,"avg":17.5,"high":30,"unit":"للخدمة"},"صيانة شاشات":{"low":10,"avg":30.0,"high":50,"unit":"للخدمة"},"صيانة تلفزيونات":{"low":10,"avg":30.0,"high":50,"unit":"للخدمة"},"صيانة إلكترونيات":{"low":5,"avg":22.5,"high":40,"unit":"للخدمة"},"تركيب أجهزة ذكية":{"low":10,"avg":22.5,"high":35,"unit":"للجهاز/الخدمة"},"منازل ذكية":{"low":50,"avg":150.0,"high":250,"unit":"للمشروع/أجرة"},"دعم تقني":{"low":10,"avg":25.0,"high":40,"unit":"للساعة"},"إعداد بريد وأنظمة مكتبية":{"low":15,"avg":37.5,"high":60,"unit":"للخدمة"},"دروس خصوصية":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"رياضيات":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"فيزياء":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"كيمياء":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"لغة عربية":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"لغة إنجليزية":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"لغات أخرى":{"low":5,"avg":15.0,"high":25,"unit":"للساعة"},"تدريب كمبيوتر":{"low":7,"avg":18.5,"high":30,"unit":"للساعة"},"برمجة":{"low":10,"avg":25.0,"high":40,"unit":"للساعة"},"تصميم":{"low":10,"avg":22.5,"high":35,"unit":"للساعة"},"محاسبة":{"low":10,"avg":20.0,"high":30,"unit":"للساعة"},"مهارات مكتبية":{"low":7,"avg":16.0,"high":25,"unit":"للساعة"},"تدريب مهني":{"low":10,"avg":22.5,"high":35,"unit":"للساعة"},"تحضير امتحانات":{"low":10,"avg":22.5,"high":35,"unit":"للساعة"},"تدريب مقابلات":{"low":15,"avg":32.5,"high":50,"unit":"للجلسة"},"مهارات تواصل":{"low":10,"avg":22.5,"high":35,"unit":"للساعة"},"حلاقة منزلية":{"low":15,"avg":20.0,"high":25,"unit":"للخدمة"},"تجميل منزلي":{"low":20,"avg":40.0,"high":60,"unit":"للخدمة"},"خياطة وتعديل ملابس":{"low":3,"avg":11.5,"high":20,"unit":"للقطعة"},"كي ملابس":{"low":0.5,"avg":1.0,"high":2,"unit":"للقطعة"},"تصوير":{"low":30,"avg":65.0,"high":100,"unit":"للجلسة"},"تصوير مناسبات":{"low":75,"avg":137.5,"high":200,"unit":"للمناسبة"},"مونتاج":{"low":20,"avg":60.0,"high":100,"unit":"للفيديو"},"تنظيم مناسبات":{"low":50,"avg":100.0,"high":150,"unit":"للمناسبة/الباقة"},"تزيين حفلات":{"low":50,"avg":100.0,"high":150,"unit":"للباقة"},"طبخ منزلي":{"low":10,"avg":30.0,"high":50,"unit":"للطلب/أجرة"},"مساعدة منزلية":{"low":4,"avg":6.0,"high":8,"unit":"للساعة"},"رعاية أطفال":{"low":15,"avg":25.0,"high":35,"unit":"لليوم/الوردية"},"رعاية حيوانات أليفة":{"low":10,"avg":20.0,"high":30,"unit":"لليوم/الزيارة"}};
+const JORDAN_PRICE_SOURCES = {"خدمات منزلية وصيانة":"السوق المفتوح الأردن + عروض مقدمي الخدمات المحلية، 2026","إنشاءات وتشطيبات":"BLOCKO + Forme One + Jor.best + السوق المفتوح الأردن، 2026","خدمات صناعية":"عروض سوق الخدمات الصناعية الأردني + تقديرات مرجعية 2026","خدمات طبية ورعاية منزلية":"السوق المفتوح الأردن لخدمات الرعاية المنزلية، 2026","خدمات موارد بشرية":"السوق المفتوح الأردن + Cartants، 2026","سيارات":"السوق المفتوح الأردن + مؤشرات أجور مراكز الصيانة، 2026","تنظيف":"السوق المفتوح الأردن لخدمات التنظيف، 2026","نقل وأثاث":"السوق المفتوح الأردن لخدمات النقل والترحيل، 2026","كهرباء وطاقة":"السوق المفتوح الأردن + مؤشرات التأسيسات الكهروميكانيكية، 2026","سباكة ومياه":"السوق المفتوح الأردن + مؤشرات التأسيسات الصحية، 2026","تكييف وتبريد":"السوق المفتوح الأردن لخدمات التكييف والتبريد، 2026","تقنية وإلكترونيات":"السوق المفتوح الأردن + عروض خدمات التقنية المحلية، 2026","تعليم وتدريب":"السوق المفتوح الأردن + British Council Jordan، 2026","خدمات شخصية":"السوق المفتوح الأردن لخدمات الأفراد والمناسبات، 2026"};
+const JORDAN_PRICE_UPDATED = '2026-10-02';
+
+const JORDAN_LOWEST_VERIFIED = {
+  "تنظيف منازل":{
+    rawLow:2, unit:"سعر إعلان؛ تفاصيل الوحدة غير واضحة",
+    provider:"الوسام لخدمات تنظيف المنازل والشقق والمطابخ والزجاج",
+    source:"السوق المفتوح الأردن", area:"عمان / السلط",
+    phone:"07901154XX", address:"العنوان الدقيق غير منشور؛ المنطقة العامة فقط",
+    status:"عرض سوق مفتوح", url:"https://jo.opensooq.com/ar/الخدمات/خدمات-تنظيف",
+    note:"أقل إعلان ظاهر في نتائج البحث؛ قد يكون سعر دخول أو عرضًا مشروطًا، لذلك لا يُستخدم وحده لحساب متوسط السوق."
+  },
+  "نقل أثاث":{
+    rawLow:30, unit:"لإعلان نقل/ترحيل؛ تفاصيل النطاق تُراجع مع المعلن",
+    provider:"شركة التوفير لنقل وترحيل عفش",
+    source:"السوق المفتوح الأردن", area:"عمان",
+    phone:"07976621XX", address:"العنوان الدقيق غير منشور؛ عمان",
+    status:"عرض سوق مفتوح", url:"https://jo.opensooq.com/ar/الخدمات",
+    note:"إعلان معلن بسعر 30 د.أ؛ السعر قد لا يشمل شقة كاملة أو جميع الطوابق/التغليف."
+  },
+  "تدريب كمبيوتر":{
+    rawLow:5, unit:"للجلسة/الساعة حسب الإعلان",
+    provider:"Excel trainer — مدرب إكسل",
+    source:"السوق المفتوح الأردن", area:"عمان",
+    phone:"07891649XX", address:"العنوان الدقيق غير منشور؛ عمان",
+    status:"عرض سوق مفتوح", url:"https://jo.opensooq.com/ar/التعليم-والتدريب",
+    note:"السعر الظاهر 5 د.أ في نتائج تدريس وتدريب؛ مدة الجلسة وشروطها تحتاج تأكيدًا."
+  },
+  "برمجة":{
+    rawLow:9.99, unit:"للخدمة/حسب نطاق المشروع في الإعلان",
+    provider:"خدمة برمجية معلنة على السوق المفتوح",
+    source:"السوق المفتوح الأردن", area:"عمان",
+    phone:"07901190XX", address:"العنوان الدقيق غير منشور؛ عمان",
+    status:"عرض سوق مفتوح", url:"https://jo.opensooq.com/ar/عمان/الخدمات/الحاسوب-والبرمجة",
+    note:"إعلان ظاهر بسعر 9.99 د.أ؛ نطاق المشروع يختلف ولا يُعامل كسعر ساعة ثابت."
+  },
+  "دروس خصوصية":{
+    rawLow:5, unit:"للجلسة/الساعة حسب الإعلان",
+    provider:"مدرس حاسوب/مواد تقنية معلن على السوق المفتوح",
+    source:"السوق المفتوح الأردن", area:"عمان",
+    phone:"07902192XX", address:"العنوان الدقيق غير منشور؛ عمان",
+    status:"عرض سوق مفتوح", url:"https://jo.opensooq.com/ar/الخدمات/الحاسوب-والبرمجة",
+    note:"مثال موثق من سوق التدريس بسعر 5 د.أ؛ المادة والمرحلة ومدة الحصة تغيّر السعر."
+  },
+  "مكافحة الحشرات":{
+    rawLow:15, unit:"لكل 100 م²",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar",
+    note:"سعر معلن رسميًا: يبدأ من 15 د.أ لكل 100 م²."
+  },
+  "تنظيف كنب":{
+    rawLow:4.28, unit:"للمقعد",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar/catalog",
+    note:"سعر ابتدائي معلن رسميًا لتنظيف الكنب/المفروشات."
+  },
+  "تنظيف سجاد":{
+    rawLow:2, unit:"م²",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar/catalog",
+    note:"سعر ابتدائي معلن رسميًا لتنظيف السجاد."
+  },
+  "تنظيف مراتب":{
+    rawLow:10, unit:"للمرتبة",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar/catalog",
+    note:"سعر ابتدائي معلن رسميًا لتنظيف المراتب."
+  },
+  "تنظيف عميق":{
+    rawLow:1.5, unit:"م² — حد أدنى للباقة يبدأ من 90 د.أ",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar",
+    note:"سعر رسمي معلن 1.50 د.أ/م² مع حد أدنى حسب نوع العقار."
+  },
+  "غسيل سيارات":{
+    rawLow:7, unit:"للسيارة الصغيرة — خدمة متنقلة",
+    provider:"Homi Home Services",
+    source:"الموقع الرسمي لهومي", area:"عمان",
+    phone:"+962 7 9255 6606",
+    address:"مبنى 150، شارع وصفي التل، الجاردنز، عمان، الأردن",
+    status:"شركة — بيانات اتصال عامة", url:"https://homihs.com/ar/catalog",
+    note:"السعر الابتدائي المعلن رسميًا لغسيل سيارة صغيرة."
+  },
+  "قصارة ولياسة":{
+    rawLow:4, unit:"م²",
+    provider:"BLOCKO — حاسبة تكلفة البناء",
+    source:"BLOCKO", area:"عمان / الأردن",
+    phone:"غير منشور في صفحة المصدر التي تم التحقق منها",
+    address:"منصة إلكترونية 100% — عمان، الأردن",
+    status:"مرجع سعري منشور", url:"https://www.block-o.com/Shop/Calculator/Index",
+    note:"مرجع منشور بسعر 4 د.أ/م² للقصارة الداخلية؛ ليس إعلان عامل فردي."
+  },
+  "دهان داخلي":{
+    rawLow:5.5, unit:"م²",
+    provider:"BLOCKO — حاسبة تكلفة البناء",
+    source:"BLOCKO", area:"عمان / الأردن",
+    phone:"غير منشور في صفحة المصدر التي تم التحقق منها",
+    address:"منصة إلكترونية 100% — عمان، الأردن",
+    status:"مرجع سعري منشور", url:"https://www.block-o.com/Shop/Calculator/Index",
+    note:"مرجع منشور 5.5 د.أ/م² للدهان الداخلي بالمواصفات المذكورة في الحاسبة."
+  },
+  "تمديدات كهربائية":{
+    rawLow:9, unit:"م² — تأسيسات كهروميكانيكية مجمعة",
+    provider:"BLOCKO — حاسبة تكلفة البناء",
+    source:"BLOCKO", area:"عمان / الأردن",
+    phone:"غير منشور في صفحة المصدر التي تم التحقق منها",
+    address:"منصة إلكترونية 100% — عمان، الأردن",
+    status:"مرجع سعري منشور", url:"https://www.block-o.com/Shop/Calculator/Index",
+    note:"الـ9 د.أ/م² مرجع لتأسيسات كهرباء وسباكة مجمعة، وليس كهرباء فقط."
+  },
+  "عزل مائي":{
+    rawLow:4.5, unit:"م²",
+    provider:"BLOCKO — حاسبة تكلفة البناء",
+    source:"BLOCKO", area:"عمان / الأردن",
+    phone:"غير منشور في صفحة المصدر التي تم التحقق منها",
+    address:"منصة إلكترونية 100% — عمان، الأردن",
+    status:"مرجع سعري منشور", url:"https://www.block-o.com/Shop/Calculator/Index",
+    note:"مرجع منشور للعزل المائي والحراري ضمن الحاسبة؛ تفاصيل النظام تؤثر على السعر."
+  }
+};
+
 const COUNTRY_PROFILES = {
   JO: {currency:'JOD',currencyName:'الدينار الأردني',phoneCode:'+962',language:'العربية',idLabel:'الرقم الوطني'},
   SA: {currency:'SAR',currencyName:'الريال السعودي',phoneCode:'+966',language:'العربية',idLabel:'رقم الهوية / الإقامة'},
@@ -393,7 +1013,85 @@ function saveRequests(v){localStorage.setItem('ikhdimni_requests',JSON.stringify
 function audits(){return JSON.parse(localStorage.getItem('ikhdimni_audit')||'[]')}
 function audit(action,details=''){const a=audits();a.push({at:new Date().toISOString(),action,details});localStorage.setItem('ikhdimni_audit',JSON.stringify(a));}
 function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'","&#039;")}
-function showScreen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');if(id==='owner')renderOwner();if(id==='providersPublic')renderPublicProviders();if(id==='clientServices')renderServiceCategories();window.scrollTo({top:0,behavior:'smooth'})}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='owner') renderOwner();
+  if(id==='providersPublic') renderPublicProviders();
+  if(id==='clientServices') renderServiceCategories();
+  if(id!=='clientServices' && window.clientDrawer) closeClientDrawer();
+  if(id==='paymentCenter') renderPaymentCenter();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function openRegistration(){
+  currentRole=null;
+  showScreen('auth');
+  document.getElementById('registrationRolePicker')?.classList.remove('hidden');
+  ['registerBox','otpBox','forgotBox'].forEach(id=>document.getElementById(id)?.classList.add('hidden'));
+}
+function enterAsGuestClient(){
+  currentRole='client';currentUser=null;requestPanel?.classList.add('hidden');showScreen('clientServices');
+}
+function openForgotFromHome(){
+  showScreen('auth');
+  document.getElementById('registrationRolePicker')?.classList.add('hidden');
+  showAuthBox('forgotBox');
+}
+function chooseRegistrationRole(role){
+  currentRole=role;
+  document.getElementById('registrationRolePicker')?.classList.add('hidden');
+  if(role==='provider'){showProviderWelcome();return}
+  prepareRegistrationRole(role);showAuthBox('registerBox');
+}
+function prepareRegistrationRole(role){
+  currentRole=role;
+  const names={client:'عميل',provider:'مقدم خدمة',merchant:'تاجر'};
+  const title=document.getElementById('registerRoleTitle');if(title)title.textContent='إنشاء حساب '+names[role];
+  const idWrap=document.getElementById('regNationalId')?.parentElement;if(idWrap)idWrap.classList.toggle('hidden',role==='client');
+  document.getElementById('providerExtra')?.classList.toggle('hidden',role!=='provider');
+  document.getElementById('merchantExtra')?.classList.toggle('hidden',role!=='merchant');
+  const lab=document.getElementById('addressField')?.querySelector('label');
+  if(lab)lab.textContent=role==='merchant'?'عنوان صاحب الحساب':(role==='client'?'العنوان — اختياري':'مكان السكن');
+}
+function makeReferralCode(role,id){
+  const prefix={client:'CL',provider:'PR',merchant:'MR'}[role]||'IK';
+  return prefix+Number(id).toString(36).slice(-6).toUpperCase();
+}
+function ensureReferralCode(u){
+  if(!u)return '';if(!u.referralCode)u.referralCode=makeReferralCode(u.role,u.id);return u.referralCode;
+}
+function globalSearch(q){
+  const box=document.getElementById('globalSearchResults');if(!box)return;
+  const query=String(q||'').trim().toLowerCase();
+  if(!query){box.classList.add('hidden');box.innerHTML='';return}
+  const results=[];
+  Object.entries(SERVICE_CATALOG).forEach(([cat,v])=>{
+    if(cat.toLowerCase().includes(query))results.push({label:cat,sub:'تصنيف خدمات',type:'category',cat});
+    v.items.forEach(service=>{if(service.toLowerCase().includes(query))results.push({label:service,sub:cat,type:'service',cat,service})});
+  });
+  [['طرق الدفع','الدفع والتحصيل','payment'],['تسجيل الدخول','الحساب','login'],['إنشاء حساب','الحساب','register'],
+   ['طلباتي','متابعة الطلبات','history'],['الشروط والأحكام','المساعدة','terms'],['المساعدة والدعم','المساعدة','help'],
+   ['الإعدادات','الحساب','settings']].forEach(([label,sub,type])=>{
+     if((label+' '+sub).toLowerCase().includes(query))results.push({label,sub,type});
+   });
+  const shown=results.slice(0,30);box._results=shown;
+  box.innerHTML=shown.map((r,i)=>`<button class="global-search-item" onclick="openGlobalSearchResult(${i})">${esc(r.label)}<div class="small">${esc(r.sub)}</div></button>`).join('')
+    ||'<div class="small" style="padding:10px">ما لقينا نتيجة.</div>';
+  box.classList.remove('hidden');
+}
+function openGlobalSearchResult(i){
+  const box=document.getElementById('globalSearchResults'),r=box?._results?.[i];if(!r)return;
+  box.classList.add('hidden');const inp=document.getElementById('globalSearchInput');if(inp)inp.value='';
+  if(r.type==='service'){currentRole='client';showScreen('clientServices');renderServiceCategories();setTimeout(()=>selectService(r.cat,r.service),0);return}
+  if(r.type==='category'){currentRole='client';showScreen('clientServices');renderServiceCategories();const idx=Object.keys(SERVICE_CATALOG).indexOf(r.cat);if(idx>=0)setTimeout(()=>toggleServiceCategory('serviceCat'+idx),0);return}
+  if(r.type==='payment'){showScreen('paymentCenter');return}
+  if(r.type==='login'){showScreen('home');return}
+  if(r.type==='register'){openRegistration();return}
+  if(['history','terms','help','settings'].includes(r.type)){currentRole=currentRole||'client';if(!document.getElementById('clientServices').classList.contains('active'))showScreen('clientServices');openClientDrawer();showClientDrawerSection(r.type)}
+}
+document.addEventListener('click',e=>{if(!e.target.closest('.global-search-wrap'))document.getElementById('globalSearchResults')?.classList.add('hidden')});
+
 function togglePassword(id,b){const x=document.getElementById(id);x.type=x.type==='password'?'text':'password';b.textContent=x.type==='password'?'👁️':'🙈'}
 function flag(code){return code.replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt()))}
 function countryName(code){try{return new Intl.DisplayNames(['ar'],{type:'region'}).of(code)||code}catch(e){return code}}
@@ -402,8 +1100,263 @@ function renderCountries(q=''){const box=document.getElementById('countryGrid');
 function chooseCountry(code){selectedCountry={code,...profile(code)};localStorage.setItem('ikhdimni_country',code);applyCountry();showScreen('home')}
 function applyCountry(){if(!selectedCountry)return;document.getElementById('countryChip').innerHTML=`<img class="flag-mini" src="${flagUrl(selectedCountry.code)}" alt=""> ${esc(countryName(selectedCountry.code))} — ${esc(selectedCountry.currency)}`;document.getElementById('countryProfile').innerHTML=`<b><img class="flag-mini" src="${flagUrl(selectedCountry.code)}" alt=""> ${esc(countryName(selectedCountry.code))}</b> — العملة: ${esc(selectedCountry.currencyName)} — مفتاح الهاتف: ${esc(selectedCountry.phoneCode)} — اللغة: ${esc(selectedCountry.language)}`;document.getElementById('idLabel').textContent=selectedCountry.idLabel;document.getElementById('regCurrency').value=selectedCountry.currency}
 function changeCountry(){localStorage.removeItem('ikhdimni_country');selectedCountry=null;showScreen('countrySelect');renderCountries()}
-function openRole(role){currentRole=role;const n={client:'العميل',provider:'مقدم الخدمة',merchant:'التاجر'};document.getElementById('authTitle').textContent='حساب '+n[role];document.getElementById('providerExtra').classList.toggle('hidden',role!=='provider');document.getElementById('merchantExtra').classList.toggle('hidden',role!=='merchant');document.getElementById('addressField').querySelector('label').textContent=role==='merchant'?'عنوان صاحب الحساب':'مكان السكن';showScreen('auth');document.querySelectorAll('#auth .panel[id]').forEach(x=>x.classList.add('hidden'))}
-function showAuthBox(id){['loginBox','registerBox','otpBox','forgotBox'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(id).classList.remove('hidden');applyCountry()}
+
+
+const JORDAN_PAYMENT_METHODS=[
+ {id:'visa',title:'Visa',sub:'بطاقات فيزا',logo:'VISA'},
+ {id:'mastercard',title:'Mastercard',sub:'بطاقات ماستركارد',logo:'MC'},
+ {id:'googlepay',title:'Google Pay',sub:'الدفع بالمحفظة الرقمية',logo:'G Pay'},
+ {id:'applepay',title:'Apple Pay',sub:'الدفع عبر أجهزة Apple',logo:' Pay'},
+ {id:'cliq',title:'CliQ',sub:'تحويل فوري داخل الأردن',logo:'CliQ'},
+ {id:'wallet',title:'المحافظ الإلكترونية',sub:'JoMoPay والمحافظ المحلية',logo:'Wallet'},
+ {id:'efawateer',title:'eFAWATEERcom',sub:'دفع إلكتروني/مرجع فاتورة',logo:'eF'},
+ {id:'bank',title:'تحويل بنكي',sub:'IBAN أو حساب بنكي',logo:'Bank'}
+];
+const JORDAN_WALLETS=[
+ 'Zain Cash','Orange Money','UWallet','Dinarak',
+ 'Alawneh Pay','Gate2Pay Wallet','MEPS National Wallet','Mad Pay'
+];
+let selectedPaymentMethod='visa';
+let selectedJordanWallet='Zain Cash';
+
+function openPaymentCenter(){
+ closeClientDrawer();
+ showScreen('paymentCenter');
+ renderPaymentCenter();
+}
+function returnFromPaymentCenter(){
+ if(currentRole==='client' || !currentRole) showScreen('clientServices');
+ else if(currentUser) { renderDashboard(); showScreen('dashboard'); }
+ else showScreen('home');
+}
+function renderPaymentCenter(){
+ const grid=document.getElementById('paymentMethodsGrid');
+ if(!grid)return;
+ grid.innerHTML=JORDAN_PAYMENT_METHODS.map(m=>`
+   <div class="pay-card ${m.id===selectedPaymentMethod?'active':''}" onclick="selectPaymentMethod('${m.id}')">
+     <div class="pay-logo">${esc(m.logo)}</div>
+     <div><b>${esc(m.title)}</b><div class="small">${esc(m.sub)}</div></div>
+   </div>
+ `).join('');
+ renderPaymentForm();
+}
+function selectPaymentMethod(id){
+ selectedPaymentMethod=id;
+ renderPaymentCenter();
+}
+function renderPaymentForm(){
+ const box=document.getElementById('paymentDynamicForm');
+ if(!box)return;
+
+ const head=`<div class="pay-summary">
+   <div><b>الدولة</b><br><span class="small">الأردن</span></div>
+   <div><b>العملة</b><br><span class="small">دينار أردني JOD</span></div>
+   <div><b>وجهة التحصيل</b><br><span class="small">حساب اخدمني المركزي</span></div>
+ </div>`;
+
+ let body='';
+ if(selectedPaymentMethod==='visa'||selectedPaymentMethod==='mastercard'){
+   body=`<h3>${selectedPaymentMethod==='visa'?'Visa':'Mastercard'}</h3>
+   <div class="grid">
+     <div><label>الاسم على البطاقة</label><input placeholder="الاسم كما يظهر على البطاقة"></div>
+     <div><label>رقم البطاقة</label><input inputmode="numeric" placeholder="•••• •••• •••• ••••"></div>
+     <div><label>تاريخ الانتهاء</label><input placeholder="MM / YY"></div>
+     <div><label>CVV</label><input inputmode="numeric" placeholder="•••"></div>
+   </div>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">متابعة الدفع</button>`;
+ }else if(selectedPaymentMethod==='googlepay'){
+   body=`<h3>Google Pay</h3>
+   <p class="small">في التشغيل الحقيقي يفتح زر Google Pay الرسمي من خلال بوابة الدفع المتعاقد معها.</p>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">الدفع عبر Google Pay</button>`;
+ }else if(selectedPaymentMethod==='applepay'){
+   body=`<h3>Apple Pay</h3>
+   <p class="small">في التشغيل الحقيقي يظهر Apple Pay فقط على الأجهزة والمتصفحات المدعومة ومن خلال مزود الدفع.</p>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">الدفع عبر Apple Pay</button>`;
+ }else if(selectedPaymentMethod==='cliq'){
+   body=`<h3>CliQ</h3>
+   <div class="grid">
+     <div><label>اسم الدافع</label><input placeholder="الاسم"></div>
+     <div><label>Alias / رقم الهاتف للدافع</label><input placeholder="مثال: الاسم المستعار أو رقم الهاتف"></div>
+     <div><label>البنك</label><input placeholder="اسم البنك"></div>
+     <div><label>رقم الطلب</label><input placeholder="يُعبّأ تلقائيًا لاحقًا"></div>
+   </div>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">إنشاء طلب دفع CliQ</button>`;
+ }else if(selectedPaymentMethod==='wallet'){
+   body=`<h3>المحافظ الإلكترونية</h3>
+   <div class="wallet-grid">${JORDAN_WALLETS.map(w=>`
+      <div class="wallet-choice ${w===selectedJordanWallet?'active':''}" onclick="selectJordanWallet('${w.replace(/'/g,"\\'")}')">${esc(w)}</div>
+   `).join('')}</div>
+   <div class="grid" style="margin-top:12px">
+     <div><label>رقم هاتف المحفظة</label><input placeholder="07XXXXXXXX"></div>
+     <div><label>المحفظة المختارة</label><input value="${esc(selectedJordanWallet)}" readonly></div>
+   </div>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">متابعة الدفع بالمحفظة</button>`;
+ }else if(selectedPaymentMethod==='efawateer'){
+   body=`<h3>eFAWATEERcom</h3>
+   <div class="grid">
+     <div><label>رقم الطلب / المرجع</label><input placeholder="يصدره النظام تلقائيًا"></div>
+     <div><label>رقم الهاتف</label><input placeholder="07XXXXXXXX"></div>
+   </div>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">إنشاء مرجع دفع</button>`;
+ }else{
+   body=`<h3>تحويل بنكي</h3>
+   <div class="grid">
+     <div><label>اسم صاحب الحساب الدافع</label><input placeholder="الاسم"></div>
+     <div><label>رقم مرجع التحويل</label><input placeholder="رقم العملية بعد التحويل"></div>
+   </div>
+   <div class="note">IBAN وحساب التحصيل الحقيقي لا يوضعان داخل نسخة تجريبية عامة. تتم إضافتهما بعد فتح حساب تاجر رسمي للمنصة.</div>
+   <label>المبلغ</label><input id="demoPaymentAmount" inputmode="decimal" placeholder="0.00 JOD">
+   <button onclick="demoPay()">تسجيل تحويل تجريبي</button>`;
+ }
+ box.innerHTML=head+body;
+}
+function selectJordanWallet(name){
+ selectedJordanWallet=name;
+ renderPaymentForm();
+}
+function demoPay(){
+ const amount=document.getElementById('demoPaymentAmount')?.value?.trim();
+ if(!amount){alert('أدخل المبلغ أولًا');return}
+ alert('هذه معاينة فقط. لم يتم خصم أي مبلغ. عند ربط بوابة الدفع ستُرسل العملية إلى حساب تحصيل اخدمني المركزي برقم طلب مستقل.');
+}
+
+function openClientDrawer(){
+ renderClientDrawer();
+ clientDrawer.classList.add('show');
+ clientDrawerBackdrop.classList.add('show');
+}
+function closeClientDrawer(){
+ clientDrawer.classList.remove('show');
+ clientDrawerBackdrop.classList.remove('show');
+}
+function renderClientDrawer(){
+ const isOwner=document.getElementById('owner')?.classList.contains('active');
+ const role=isOwner?'owner':(currentUser?.role||currentRole||'client');
+ const logged=!!currentUser && !String(currentUser.id||'').startsWith('owner-preview-');
+ const roleName={client:'العميل',provider:'مقدم الخدمة',merchant:'التاجر',owner:'الإدارة'}[role]||'المستخدم';
+ const first=logged?(currentUser.fullName||roleName).split(/\s+/)[0]:roleName;
+ clientDrawerProfile.innerHTML=logged
+   ? `<b>أهلًا ${esc(first)}</b><div class="small">${esc(currentUser.phone||currentUser.email||roleName)}</div>`
+   : `<b>${esc(roleName)}</b><div class="small">${role==='client'?'تقدر تطلب خدمة بدون إنشاء حساب.':'قائمة '+roleName}</div>`;
+ document.querySelectorAll('.client-drawer-menu .client-menu-item').forEach(x=>x.style.display='flex');
+ if(isOwner){
+   clientDrawerAuth.innerHTML='<button class="light" onclick="closeClientDrawer()">إغلاق القائمة</button>';
+ }else if(logged){
+   clientDrawerAuth.innerHTML='<button onclick="clientLogoutFromDrawer()">تسجيل خروج</button>';
+ }else if(role==='client'){
+   clientDrawerAuth.innerHTML=`<div class="grid"><button onclick="closeClientDrawer();showScreen('home')">تسجيل الدخول</button><button class="success" onclick="closeClientDrawer();openRegistration()">إنشاء حساب</button></div>`;
+ }else{
+   clientDrawerAuth.innerHTML=`<button onclick="closeClientDrawer();showScreen('home')">تسجيل الدخول</button>`;
+ }
+}
+function clientRequestHistory(){
+ const rs=requests();
+ if(currentUser && currentUser.role==='client' && !String(currentUser.id).startsWith('owner-preview-')){
+   return rs.filter(r=>r.clientId===currentUser.id || (currentUser.phone && r.clientPhone===currentUser.phone))
+            .sort((a,b)=>b.id-a.id);
+ }
+ const ids=JSON.parse(localStorage.getItem('ikhdimni_guest_request_ids')||'[]');
+ return rs.filter(r=>ids.includes(r.id)).sort((a,b)=>b.id-a.id);
+}
+function requestStatusArabic(status){
+ return ({offered:'قيد المتابعة',waiting:'قيد المتابعة',accepted:'تم قبول الطلب',completed:'مكتمل',cancelled:'ملغي'})[status]||'قيد المتابعة';
+}
+function showClientDrawerSection(section){
+ const logged=!!(currentUser && currentUser.role==='client' && !String(currentUser.id).startsWith('owner-preview-'));
+ let html='';
+ if(section==='history'){
+   const hs=clientRequestHistory();
+   html='<b>طلباتي والخدمات السابقة</b>';
+   html+=hs.length?hs.map(r=>`<div class="client-history-item"><b>${esc(r.service)}</b><span class="small">${esc(r.area||'')} — ${requestStatusArabic(r.status)}<br>رقم الطلب: ${r.id}</span></div>`).join('')
+                  :'<div class="muted" style="margin-top:8px">ما عندك طلبات محفوظة على هذا الجهاز حتى الآن.</div>';
+ }else if(section==='notifications'){
+   html='<b>الإشعارات</b><div class="small" style="margin-top:6px">هون تظهر تحديثات الطلبات، قبول مقدم الخدمة، وتأكيد الموعد.</div>';
+ }else if(section==='addresses'){
+   html='<b>العناوين المحفوظة</b><div class="small" style="margin-top:6px">'+
+        (logged && currentUser.address?esc(currentUser.address):'بعد تسجيل الدخول تقدر تحفظ عنوان البيت أو العمل لتسريع الطلبات القادمة.')+'</div>';
+ }else if(section==='payments'){
+   html='<b>طرق الدفع</b><div class="small" style="margin-top:6px">سيتم ربط طرق الدفع المتاحة حسب الدولة. في النسخة الحالية هذا القسم تجريبي.</div>';
+ }else if(section==='referral'){
+   if(currentUser){
+     const code=ensureReferralCode(currentUser);
+     html=`<b>شارك واربح 10%</b><div class="small" style="margin-top:8px">كودك: <b style="font-size:18px">${esc(code)}</b><br>
+     كل شخص جديد يسجل من نفس نوع حسابك باستخدام كودك يعطيك <b>خصم 10%</b> للاستخدام القادم.<br>
+     العميل يدعو عميل، مقدم الخدمة يدعو مقدم خدمة، والتاجر يدعو تاجر.</div>
+     <div class="status approved">الإحالات الناجحة: ${Number(currentUser.referralCount||0)} — الخصم القادم: ${Number(currentUser.nextDiscountPercent||0)}%</div>`;
+   }else{
+     html='<b>شارك واربح 10%</b><div class="small" style="margin-top:8px">أنشئ حسابًا حتى تحصل على كود إحالة خاص فيك.</div>';
+   }
+ }else if(section==='account'){
+   html='<b>حسابي</b><div class="small" style="margin-top:6px">'+
+        (logged?`الاسم: ${esc(currentUser.fullName||'')}<br>الهاتف: ${esc(currentUser.phone||'')}<br>الإيميل: ${esc(currentUser.email||'')}`:
+        'أنت تستخدم اخدمني كضيف. تقدر تكمل بدون حساب، أو تسجل دخول حتى تجمع طلباتك بحساب واحد.')+'</div>';
+ }else if(section==='settings'){
+   html='<b>الإعدادات</b><div class="small" style="margin-top:6px">الدولة: '+esc(selectedCountry?countryName(selectedCountry.code):'—')+
+        '<br>العملة: '+esc(selectedCountry?.currency||'—')+
+        '<br>لاحقًا: اللغة، الإشعارات، الخصوصية، وتفضيلات الحساب.</div>';
+ }else if(section==='help'){
+   html='<b>المساعدة والدعم</b><div class="small" style="margin-top:6px">مساعدة في الطلب، تعديل الموعد، مشكلة مع مقدم الخدمة، أو استفسار عن السعر. لاحقًا نربطها بمحادثة دعم واتصال مباشر.</div>';
+ }else if(section==='terms'){
+   html='<b>الشروط والأحكام</b><div class="small" style="margin-top:6px">استخدام الخدمة يعني تقديم معلومات صحيحة عن الطلب، احترام الموعد، وعدم إساءة استخدام المنصة. السعر الظاهر تقديري حتى تأكيد تفاصيل العمل. النسخة النهائية ستحتوي سياسة الخصوصية والإلغاء والدفع والشكاوى بشكل كامل.</div>';
+ }
+ clientDrawerDetail.innerHTML=html;
+}
+function openClientAuth(box){
+ closeClientDrawer();
+ currentRole='client';
+ document.getElementById('authTitle').textContent='حساب العميل';
+ document.getElementById('providerExtra').classList.add('hidden');
+ document.getElementById('merchantExtra').classList.add('hidden');
+ const idWrap=document.getElementById('regNationalId')?.parentElement;
+ if(idWrap) idWrap.classList.add('hidden');
+ document.getElementById('addressField').querySelector('label').textContent='عنوان محفوظ — اختياري';
+ showScreen('auth');
+ showAuthBox(box);
+}
+function returnFromAuth(){showScreen('home')}
+function clientLogoutFromDrawer(){
+ closeClientDrawer();
+ currentUser=null;
+ currentRole='client';
+ showScreen('clientServices');
+}
+
+
+function showProviderWelcome(){
+ const x=document.getElementById('providerWelcomeOverlay');
+ if(x) x.classList.add('show');
+}
+function continueProviderEntry(){
+ const x=document.getElementById('providerWelcomeOverlay');if(x)x.classList.remove('show');
+ prepareRegistrationRole('provider');showAuthBox('registerBox');
+}
+function openProviderAuth(){
+ currentRole='provider';
+ const n={provider:'مقدم الخدمة'};
+ const idWrap=document.getElementById('regNationalId')?.parentElement;
+ if(idWrap) idWrap.classList.remove('hidden');
+ document.getElementById('authTitle').textContent='حساب '+n.provider;
+ document.getElementById('providerExtra').classList.remove('hidden');
+ document.getElementById('merchantExtra').classList.add('hidden');
+ document.getElementById('addressField').querySelector('label').textContent='مكان السكن';
+ showScreen('auth');
+ document.querySelectorAll('#auth .panel[id]').forEach(x=>x.classList.add('hidden'));
+}
+
+function openRole(role){
+ if(role==='client'){enterAsGuestClient();return}
+ openRegistration();chooseRegistrationRole(role);
+}
+function showAuthBox(id){
+ ['registerBox','otpBox','forgotBox'].forEach(x=>document.getElementById(x)?.classList.add('hidden'));
+ document.getElementById(id)?.classList.remove('hidden');applyCountry();
+}
 function allJobs(){return [...new Set(Object.values(SERVICE_CATALOG).flatMap(x=>x.items))].sort()}
 document.getElementById('regJob').innerHTML=allJobs().map(x=>`<option>${esc(x)}</option>`).join('');
 
@@ -413,24 +1366,57 @@ async function fileHash(file){const arr=await file.arrayBuffer();const h=await c
 async function hashText(t){const d=new TextEncoder().encode(t);const h=await crypto.subtle.digest('SHA-256',d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('')}
 
 async function startRegistration(){
- const fullName=regFullName.value.trim(), nationalId=regNationalId.value.trim(), phone=regPhone.value.trim(), altPhone=regAltPhone.value.trim(), email=regEmail.value.trim().toLowerCase(), password=regPassword.value, address=regAddress.value.trim(), area=regArea.value.trim();
- if(!fullName||!nationalId||!phone||!email||password.length<8||!address||!area){registerMsg.innerHTML='<div class="status blocked">أكمل الحقول المطلوبة والباسورد 8 أحرف أو أكثر.</div>';return}
+ const fullName=regFullName.value.trim(), nationalId=regNationalId.value.trim(), phone=regPhone.value.trim(), altPhone=regAltPhone.value.trim(), email=regEmail.value.trim().toLowerCase(), password=regPassword.value, address=regAddress.value.trim(), area=regArea.value.trim(), referralCode=(document.getElementById('regReferralCode')?.value||'').trim().toUpperCase();
+ const missingClient=currentRole==='client'&&(!fullName||!phone||!email||password.length<8);
+ const missingOther=currentRole!=='client'&&(!fullName||!nationalId||!phone||!email||password.length<8||!address||!area);
+ if(missingClient||missingOther){registerMsg.innerHTML='<div class="status blocked">أكمل الحقول المطلوبة والباسورد 8 أحرف أو أكثر.</div>';return}
  if(altPhone&&altPhone===phone){registerMsg.innerHTML='<div class="status blocked">الرقم البديل يجب أن يكون مختلفًا عن رقم الهاتف الأساسي.</div>';return}
  if(phoneConflict(phone,altPhone)){registerMsg.innerHTML='<div class="status blocked">رقم الهاتف أو الرقم البديل مستخدم مسبقًا بحساب آخر.</div>';return}
  if(users().some(u=>u.email===email)){registerMsg.innerHTML='<div class="status blocked">هذا الإيميل مستخدم مسبقًا.</div>';return}
- const base={id:Date.now(),role:currentRole,country:selectedCountry?.code||'',currency:selectedCountry?.currency||'LOCAL',fullName,nationalId,phone,altPhone,email,passwordHash:await hashText(password),address,area,createdAt:new Date().toISOString(),balance:0,ledger:[],history:[],phoneVerified:false,forcePasswordChange:false};
+ let referrer=null;
+ if(referralCode){
+   referrer=users().find(u=>String(u.referralCode||'').toUpperCase()===referralCode&&u.role===currentRole);
+   if(!referrer){registerMsg.innerHTML='<div class="status blocked">كود الإحالة غير صحيح أو ليس لنفس نوع الحساب.</div>';return}
+ }
+ const newId=Date.now();
+ const base={id:newId,role:currentRole,country:selectedCountry?.code||'',currency:selectedCountry?.currency||'LOCAL',fullName,nationalId,phone,altPhone,email,passwordHash:await hashText(password),address,area,createdAt:new Date().toISOString(),balance:0,ledger:[],history:[],phoneVerified:false,forcePasswordChange:false,referralCode:makeReferralCode(currentRole,newId),referredById:referrer?.id||null,referredByCode:referralCode||'',nextDiscountPercent:referrer?10:0,referralCount:0};
  if(currentRole==='provider'){
-   const idFile=regIdImage.files[0]; if(!idFile){registerMsg.innerHTML='<div class="status blocked">صورة الهوية إلزامية لمقدم الخدمة.</div>';return}
-   const idHash=await fileHash(idFile); if(users().some(u=>u.idImageHash===idHash)){registerMsg.innerHTML='<div class="status blocked">صورة الهوية مستخدمة في حساب آخر.</div>';return}
-   const works=[...regWorkImages.files].slice(0,4); base.job=regJob.value;base.experience=Number(regExperience.value||0);base.jobsDone=Number(regJobsDone.value||0);base.providerStatus='pending';base.rating=0;base.notes=[];base.completedJobs=0;base.idImageHash=idHash;base.idImage=await readDataUrl(idFile);base.workImages=await Promise.all(works.map(readDataUrl));base.approvedAt=null;base.creditBlocked=false;
+   const idFile=regIdImage.files[0];if(!idFile){registerMsg.innerHTML='<div class="status blocked">صورة الهوية إلزامية لمقدم الخدمة.</div>';return}
+   const idHash=await fileHash(idFile);if(users().some(u=>u.idImageHash===idHash)){registerMsg.innerHTML='<div class="status blocked">صورة الهوية مستخدمة في حساب آخر.</div>';return}
+   const works=[...regWorkImages.files].slice(0,4);base.job=regJob.value;base.experience=Number(regExperience.value||0);base.jobsDone=Number(regJobsDone.value||0);base.providerStatus='pending';base.rating=0;base.notes=[];base.completedJobs=0;base.idImageHash=idHash;base.idImage=await readDataUrl(idFile);base.workImages=await Promise.all(works.map(readDataUrl));base.approvedAt=null;base.creditBlocked=false;
  }
  if(currentRole==='merchant'){
    base.storeName=regStoreName.value.trim();base.materialType=regMaterialType.value;base.businessAddress=regBusinessAddress.value.trim();base.lat=regLat.value;base.lng=regLng.value;base.sampleItem=regSampleItem.value.trim();base.samplePrice=Number(regSamplePrice.value||0);base.priceLevel='غير محسوب';
  }
- pendingRegistration=base;showAuthBox('otpBox')
+ pendingRegistration=base;showAuthBox('otpBox');
 }
-function verifyOtp(){if(otpInput.value.trim()!=='123456'){otpMsg.innerHTML='<div class="status blocked">الكود غير صحيح.</div>';return}pendingRegistration.phoneVerified=true;const u=users();u.push(pendingRegistration);saveUsers(u);audit('إنشاء حساب',pendingRegistration.role+' - '+pendingRegistration.email);currentUser=pendingRegistration;pendingRegistration=null;renderDashboard();showScreen('dashboard')}
-async function login(){const email=loginEmail.value.trim().toLowerCase(),pwd=loginPassword.value;const h=await hashText(pwd);const u=users().find(x=>x.email===email&&x.passwordHash===h&&x.role===currentRole);if(!u){loginMsg.innerHTML='<div class="status blocked">الإيميل أو الباسورد غير صحيح لهذا النوع من الحساب.</div>';return}currentUser=u;renderDashboard();showScreen('dashboard')}
+function verifyOtp(){
+ if(otpInput.value.trim()!=='123456'){otpMsg.innerHTML='<div class="status blocked">الكود غير صحيح.</div>';return}
+ pendingRegistration.phoneVerified=true;
+ const u=users();
+ if(pendingRegistration.referredById){
+   const ref=u.find(x=>x.id===pendingRegistration.referredById&&x.role===pendingRegistration.role);
+   if(ref){
+     ensureReferralCode(ref);ref.referralCount=Number(ref.referralCount||0)+1;ref.nextDiscountPercent=10;
+     ref.history=ref.history||[];ref.history.push({type:'referral_reward',percent:10,at:new Date().toISOString(),newUserId:pendingRegistration.id});
+   }
+ }
+ u.push(pendingRegistration);saveUsers(u);audit('إنشاء حساب',pendingRegistration.role+' - '+pendingRegistration.email);
+ currentUser=pendingRegistration;pendingRegistration=null;
+ if(currentUser.role==='client'){showScreen('clientServices');renderClientDrawer();return}
+ renderDashboard();showScreen('dashboard');
+}
+async function login(){
+ const email=loginEmail.value.trim().toLowerCase(),pwd=loginPassword.value;
+ if(!email||!pwd){loginMsg.innerHTML='<div class="status blocked">اكتب البريد الإلكتروني وكلمة السر.</div>';return}
+ const h=await hashText(pwd);
+ const u=users().find(x=>x.email===email&&x.passwordHash===h);
+ if(!u){loginMsg.innerHTML='<div class="status blocked">البريد الإلكتروني أو كلمة السر غير صحيحة.</div>';return}
+ currentUser=u;currentRole=u.role;ensureReferralCode(currentUser);
+ if(u.role==='owner'){showScreen('owner');return}
+ if(u.role==='client'){showScreen('clientServices');renderClientDrawer();return}
+ renderDashboard();showScreen('dashboard');
+}
 function logout(){
  if(ownerPreviewActive){exitOwnerPreview();return}
  currentUser=null;currentRole=null;showScreen('home')
@@ -439,19 +1425,37 @@ function forgotPassword(){forgotMsg.innerHTML='<div class="status pending">في 
 
 function renderDashboard(){
  if(!currentUser)return;
+ ensureReferralCode(currentUser);
  const first=(currentUser.fullName||'').split(/\s+/)[0];
- dashTitle.textContent=(ownerPreviewActive?'دخول المالك — ':'حساب ')+({client:'العميل',provider:'مقدم الخدمة',merchant:'التاجر'}[currentUser.role])+' — '+first;
+ dashTitle.textContent='حساب '+({client:'العميل',provider:'مقدم الخدمة',merchant:'التاجر'}[currentUser.role]||'المستخدم')+' — '+first;
  let s='',c='';
- if(ownerPreviewActive){
-   s='<div class="note"><b>صلاحيات المالك مفعّلة.</b><br>أنت داخل الواجهة الكاملة لهذا النوع من الحساب، وتستطيع فتح الصفحات والأزرار وتجربة المسار كاملًا.<br><button class="secondary" onclick="exitOwnerPreview()">الرجوع إلى لوحة المالك</button></div>';
+ if(currentUser.role==='client'){
+   s='<div class="status approved">الحساب مفعّل ويمكنك طلب خدمة.</div>';
+   c=`<div class="grid"><button onclick="showScreen('clientServices')">طلب خدمة جديدة</button><button class="secondary" onclick="showScreen('providersPublic')">عرض مقدمي الخدمة</button></div>
+   <div class="note">اختَر الخدمة أولًا، وبعدها يوزع النظام الطلب على مقدمي الخدمة المؤهلين بالعدل.<br><b>شارك واربح 10%:</b> كودك ${esc(currentUser.referralCode)} — كل عميل جديد يسجل عن طريق كودك يعطيك خصم 10% للاستخدام القادم.</div>`;
  }
- if(currentUser.role==='client'){s+='<div class="status approved">الحساب مفعّل ويمكنك طلب خدمة.</div>';const openServices=ownerPreviewActive?"openOwnerClientServices()":"showScreen(\\'clientServices\\')";c='<div class="grid"><button onclick="'+openServices+'">طلب خدمة جديدة</button><button class="secondary" onclick="showScreen(\'providersPublic\')">عرض مقدمي الخدمة</button></div><div class="note">اختَر الخدمة أولًا، وبعدها يوزع النظام الطلب على مقدمي الخدمة المؤهلين بالعدل.</div>'}
- if(currentUser.role==='provider'){const ok=currentUser.providerStatus==='approved';s+=ok?'<div class="status approved">الحساب مفعّل.</div>':'<div class="status pending">الحساب قيد المراجعة — البيانات محفوظة عند المالك ولا تستقبل طلبات قبل التفعيل.</div>';const assigned=requests().filter(r=>r.providerId===currentUser.id&&['offered','accepted'].includes(r.status));c=`<div class="grid3"><div class="kpi">الرصيد<b>${Number(currentUser.balance||0).toFixed(2)} ${esc(currentUser.currency||'')}</b></div><div class="kpi">الأعمال المكتملة<b>${Number(currentUser.completedJobs||0)}</b></div><div class="kpi">عمولة مقدم الخدمة<b>5%</b></div></div><div class="privacy">عمولة مقدم الخدمة 5%، ويضاف 5% على العميل. إذا لم يتوفر رصيد كافٍ لمقدم الخدمة، يتم إيقاف استقبال طلبات جديدة حتى الشحن.</div><h3 style="margin-top:14px">طلباتك</h3>${assigned.length?assigned.map(r=>`<div class="panel"><b>${esc(r.service)}</b> — ${esc(r.area)}<br><span class="small">${esc(r.details)}</span><button class="success" onclick="providerAccept(${r.id})">قبول</button></div>`).join(''):'<div class="muted">لا توجد طلبات حالياً.</div>'}`}
- if(currentUser.role==='merchant'){c=`<div class="grid3"><div class="kpi">الرصيد<b>${Number(currentUser.balance||0).toFixed(2)} ${esc(currentUser.currency||'')}</b></div><div class="kpi">مستوى السعر<b>${esc(currentUser.priceLevel||'غير محسوب')}</b></div><div class="kpi">المتجر<b>${esc(currentUser.storeName||'')}</b></div></div><div class="mapbox"><b>موقع المنشأة:</b> ${esc(currentUser.businessAddress||'')}<br><span class="small">${esc(currentUser.lat||'')} , ${esc(currentUser.lng||'')}</span></div>`;s+='<div class="status approved">حساب التاجر جاهز.</div>'}
- dashStatus.innerHTML=s;dashContent.innerHTML=c
+ if(currentUser.role==='provider'){
+   const ok=currentUser.providerStatus==='approved';
+   s=ok?'<div class="status approved">الحساب مفعّل.</div>':'<div class="status pending">الحساب قيد المراجعة — البيانات محفوظة عند الإدارة ولا تستقبل طلبات قبل التفعيل.</div>';
+   const assigned=requests().filter(r=>r.providerId===currentUser.id&&['offered','accepted'].includes(r.status));
+   const firstFree=Number(currentUser.completedJobs||0)===0,commissionRate=firstFree?0:5;
+   c=`<div class="grid3"><div class="kpi">الرصيد<b>${Number(currentUser.balance||0).toFixed(2)} ${esc(currentUser.currency||'')}</b></div><div class="kpi">الأعمال المكتملة<b>${Number(currentUser.completedJobs||0)}</b></div><div class="kpi">عمولة العمل القادم<b>${commissionRate}%</b></div></div>
+   <div class="privacy">${firstFree?'<b>أول عمل نوفره لك مجاني بالكامل — 0% عمولة.</b><br>بعد أول عمل تصبح عمولة مقدم الخدمة 5%.':'عمولة مقدم الخدمة الحالية 5%.'}</div>
+   <div class="note"><b>شارك واربح 10%:</b> كودك ${esc(currentUser.referralCode)} — كل مقدم خدمة جديد يسجل عن طريق كودك يعطيك خصم 10% للاستخدام القادم.</div>
+   <h3 style="margin-top:14px">طلباتك</h3>${assigned.length?assigned.map(r=>`<div class="panel"><b>${esc(r.service)}</b> — ${esc(r.area)}<br><span class="small">${esc(r.details)}</span><button class="success" onclick="providerAccept(${r.id})">قبول</button></div>`).join(''):'<div class="muted">لا توجد طلبات حالياً.</div>'}`;
+ }
+ if(currentUser.role==='merchant'){
+   s='<div class="status approved">حساب التاجر جاهز.</div>';
+   c=`<div class="grid3"><div class="kpi">الرصيد<b>${Number(currentUser.balance||0).toFixed(2)} ${esc(currentUser.currency||'')}</b></div><div class="kpi">مستوى السعر<b>${esc(currentUser.priceLevel||'غير محسوب')}</b></div><div class="kpi">المتجر<b>${esc(currentUser.storeName||'')}</b></div></div>
+   <div class="mapbox"><b>موقع المنشأة:</b> ${esc(currentUser.businessAddress||'')}<br><span class="small">${esc(currentUser.lat||'')} , ${esc(currentUser.lng||'')}</span></div>
+   <div class="note"><b>شارك واربح 10%:</b> كودك ${esc(currentUser.referralCode)} — كل تاجر جديد يسجل عن طريق كودك يعطيك خصم 10% للاستخدام القادم.</div>`;
+ }
+ dashStatus.innerHTML=s;dashContent.innerHTML=c;
 }
 function openOwnerClientServices(){
  if(!ownerPreviewActive){
+   currentRole='client';
+   currentUser=null;
    showScreen('clientServices');
    return;
  }
@@ -464,19 +1468,91 @@ function openOwnerClientServices(){
  showScreen('clientServices');
 }
 function returnToDashboard(){renderDashboard();showScreen('dashboard')}
+function returnFromClientServices(){
+ requestPanel.classList.add('hidden');
+ if(ownerPreviewActive){
+   renderDashboard();
+   showScreen('dashboard');
+ }else{
+   currentUser=null;
+   currentRole=null;
+   showScreen('home');
+ }
+}
+function returnFromPublicProviders(){
+ if(ownerPreviewActive || currentUser){
+   renderDashboard();
+   showScreen('dashboard');
+ }else{
+   currentRole='client';
+   showScreen('clientServices');
+ }
+}
 
-function categorySvg(icon,label){const safe=encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="260"><defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#eaf2ff"/><stop offset="1" stop-color="#dff7ec"/></linearGradient></defs><rect width="100%" height="100%" rx="24" fill="url(#g)"/><text x="50%" y="45%" text-anchor="middle" dominant-baseline="middle" font-size="88">${icon}</text><text x="50%" y="78%" text-anchor="middle" font-family="Arial" font-size="28" fill="#172033">${label}</text></svg>`);return 'data:image/svg+xml;charset=UTF-8,'+safe}
+
+function priceNumber(v){
+  return new Intl.NumberFormat('ar-JO',{maximumFractionDigits:2}).format(Number(v));
+}
+function getMarketPrice(cat,service){
+  if(!selectedCountry || selectedCountry.code!=='JO') return null;
+  const p=JORDAN_PRICE_DATA[service];
+  if(!p) return null;
+  return {...p,source:JORDAN_PRICE_SOURCES[cat]||'بيانات سوق الأردن 2026'};
+}
+function renderMarketPrice(cat,service){
+  const box=document.getElementById('marketPricePanel');
+  if(!box) return;
+  const p=getMarketPrice(cat,service);
+  if(!p){
+    box.innerHTML='<div class="market-price-title">السعر التقديري</div><div class="small">قاعدة الأسعار التفصيلية مفعّلة حاليًا للأردن. سيتم إضافة أسعار باقي الدول لاحقًا.</div>';
+    return;
+  }
+  box.innerHTML=`<div class="market-price-title">السعر التقديري في الأردن — ${esc(service)}</div>
+    <div class="market-price-grid">
+      <div class="market-price-item"><span>أقل سعر مرجعي</span><b>${priceNumber(p.low)} د.أ</b><span class="small">${esc(p.unit)}</span></div>
+      <div class="market-price-item avg"><span>السعر المتوسط المعتمد</span><b>${priceNumber(p.avg)} د.أ</b><span class="small">${esc(p.unit)}</span></div>
+      <div class="market-price-item"><span>أعلى سعر مرجعي</span><b>${priceNumber(p.high)} د.أ</b><span class="small">${esc(p.unit)}</span></div>
+    </div>
+    <div class="market-price-source">المتوسط = منتصف النطاق المرجعي. المصدر: ${esc(p.source)}. آخر تحديث ${JORDAN_PRICE_UPDATED}. تم استبعاد الإعلانات الشاذة جدًا من النطاق، والسعر النهائي يُثبت بعد تفاصيل الطلب والصور والكمية.</div>`;
+}
+
+const CATEGORY_IMAGES={
+  'خدمات منزلية وصيانة':'cat_home.png',
+  'إنشاءات وتشطيبات':'cat_build.png',
+  'خدمات صناعية':'cat_build.png',
+  'خدمات طبية ورعاية منزلية':'cat_medical.png',
+  'خدمات موارد بشرية':'cat_hr.png',
+  'سيارات':'cat_car.png',
+  'تنظيف':'cat_clean.png',
+  'نقل وأثاث':'cat_home.png',
+  'كهرباء وطاقة':'cat_power.png',
+  'سباكة ومياه':'cat_home.png',
+  'تكييف وتبريد':'cat_power.png',
+  'تقنية وإلكترونيات':'cat_tech.png',
+  'تعليم وتدريب':'cat_hr.png',
+  'خدمات شخصية':'cat_clean.png'
+};
+function getCategoryImage(name){
+  return CATEGORY_IMAGES[name] || 'cat_home.png';
+}
+
 function renderServiceCategories(){
   serviceCategories.innerHTML=Object.entries(SERVICE_CATALOG).map(([name,v],i)=>{
     const safeCat=name.replaceAll("'","\\'");
-    const items=v.items.map(item=>`<div class="service-card" onclick="event.stopPropagation();selectService('${safeCat}','${item.replaceAll("'","\\'")}')">${esc(item)}</div>`).join('');
+    const items=v.items.map(item=>{
+      const safeItem=item.replaceAll("'","\\'");
+      const p=getMarketPrice(name,item);
+      const priceMini=p?`<span class="service-price-mini">المتوسط ${priceNumber(p.avg)} د.أ / ${esc(p.unit)}</span>`:'';
+      return `<div class="service-card" onclick="event.stopPropagation();selectService('${safeCat}','${safeItem}')">${esc(item)}${priceMini}</div>`;
+    }).join('');
     return `<div class="category-accordion" id="serviceCat${i}">
       <button type="button" class="category-toggle" onclick="toggleServiceCategory('serviceCat${i}')">
-        <img src="${categorySvg(v.icon,name)}" alt="${esc(name)}">
+        <img class="category-photo" src="${getCategoryImage(name)}" alt="${esc(name)}">
         <span class="category-title">${esc(name)}</span>
         <span class="category-arrow">⌄</span>
       </button>
       <div class="category-services">${items}</div>
+      <div class="category-selected-line"></div>
     </div>`;
   }).join('');
   subServicesPanel.classList.add('hidden');
@@ -484,56 +1560,139 @@ function renderServiceCategories(){
 function toggleServiceCategory(id){
   const chosen=document.getElementById(id);
   const wasOpen=chosen.classList.contains('open');
+
   document.querySelectorAll('.category-accordion.open').forEach(x=>x.classList.remove('open'));
-  if(!wasOpen) chosen.classList.add('open');
-  requestPanel.classList.add('hidden');
+
+  if(!wasOpen){
+    chosen.classList.add('open');
+    document.querySelectorAll('.category-accordion.selected-service').forEach(x=>{
+      x.classList.remove('selected-service');
+      const line=x.querySelector('.category-selected-line');
+      if(line) line.textContent='';
+    });
+    requestPanel.classList.add('hidden');
+  }
 }
 function selectCategory(cat){
   const entry=Object.keys(SERVICE_CATALOG).indexOf(cat);
   if(entry>=0) toggleServiceCategory('serviceCat'+entry);
 }
-function selectService(cat,s){reqCategory.value=cat;reqService.value=s;reqArea.value=currentUser?.area||'';requestPanel.classList.remove('hidden');requestPanel.scrollIntoView({behavior:'smooth'})}
+function selectService(cat,s){
+ reqCategory.value=cat;
+ reqService.value=s;
+ reqArea.value=currentUser?.area||'';
+
+ if(currentUser?.fullName && !String(currentUser.id).startsWith('owner-preview-')) reqClientName.value=currentUser.fullName;
+ if(currentUser?.phone) reqClientPhone.value=currentUser.phone;
+ if(currentUser?.address) reqAddress.value=currentUser.address;
+
+ const entry=Object.keys(SERVICE_CATALOG).indexOf(cat);
+ const chosen=entry>=0?document.getElementById('serviceCat'+entry):null;
+
+ document.querySelectorAll('.category-accordion').forEach(x=>{
+   x.classList.remove('open','selected-service');
+   const line=x.querySelector('.category-selected-line');
+   if(line) line.textContent='';
+ });
+
+ if(chosen){
+   chosen.classList.add('selected-service');
+   const line=chosen.querySelector('.category-selected-line');
+   if(line) line.textContent='الخدمة المختارة: '+s;
+   chosen.insertAdjacentElement('afterend',requestPanel);
+ }
+
+ requestPanel.classList.remove('hidden');
+ requestPanel.scrollIntoView({behavior:'smooth',block:'start'});
+}
 function providerEligible(p,service,area){if(p.role!=='provider'||p.providerStatus!=='approved')return false;if(p.creditBlocked)return false;if(Number(p.completedJobs||0)>0&&Number(p.balance||0)<=0)return false;const matchJob=(p.job===service||String(p.job||'').includes(service)||service.includes(String(p.job||'')));const matchArea=!area||!p.area||p.area===area;return matchJob&&matchArea}
 function chooseFairProvider(service,area){const ps=users().filter(p=>providerEligible(p,service,area)).sort((a,b)=>Number(a.lastAssignedAt||0)-Number(b.lastAssignedAt||0));return ps[0]||null}
+
+function showRequestSuccess(requestId){
+ const overlay=document.getElementById('requestSuccessOverlay');
+ const ref=document.getElementById('requestSuccessRef');
+ if(ref) ref.textContent='رقم متابعة الطلب: '+requestId;
+ if(overlay) overlay.classList.add('show');
+}
+function closeRequestSuccess(){
+ const overlay=document.getElementById('requestSuccessOverlay');
+ if(overlay) overlay.classList.remove('show');
+ requestPanel.classList.add('hidden');
+ document.querySelectorAll('.category-accordion.selected-service').forEach(x=>{
+   x.classList.remove('selected-service');
+   const line=x.querySelector('.category-selected-line');
+   if(line) line.textContent='';
+ });
+ if(document.getElementById('reqDetails')) reqDetails.value='';
+ if(document.getElementById('reqTime')) reqTime.value='';
+}
+
 function createRequest(){
- const service=reqService.value,cat=reqCategory.value,area=reqArea.value.trim(),details=reqDetails.value.trim();
- if(!service||!area||!details){
-   requestMsg.innerHTML='<div class="status blocked">أكمل الخدمة والمنطقة والتفاصيل.</div>';
-   return
- }
- if(ownerPreviewActive){
-   const p=chooseFairProvider(service,area);
-   const tests=JSON.parse(localStorage.getItem('ikhdimni_owner_test_requests')||'[]');
-   tests.push({
-     id:Date.now(),
-     category:cat,
-     service,
-     area,
-     details,
-     time:reqTime.value,
-     providerId:p?.id||null,
-     status:p?'test_offered':'test_waiting',
-     createdAt:new Date().toISOString()
-   });
-   localStorage.setItem('ikhdimni_owner_test_requests',JSON.stringify(tests));
-   requestMsg.innerHTML=p
-     ? `<div class="status approved">تم تنفيذ طلب تجريبي بصلاحيات المالك، وتم اختبار توزيعه على مقدم خدمة مؤهل بدون إنشاء طلب حقيقي للزبائن.</div>`
-     : `<div class="status pending">تم تنفيذ الطلب التجريبي بصلاحيات المالك. المسار يعمل، لكن لا يوجد مقدم خدمة مؤهل متاح حاليًا.</div>`;
+ const service=reqService.value;
+ const cat=reqCategory.value;
+ const marketPrice=getMarketPrice(cat,service);
+ const clientName=reqClientName.value.trim();
+ const clientPhone=reqClientPhone.value.trim();
+ const area=reqArea.value.trim();
+ const address=reqAddress.value.trim();
+ const details=reqDetails.value.trim();
+ if(!service||!clientName||!clientPhone||!area||!details){
+   requestMsg.innerHTML='<div class="status blocked">أكمل اسمك ورقم الهاتف والمنطقة وتفاصيل الخدمة.</div>';
    return
  }
  const p=chooseFairProvider(service,area);
+
+ if(ownerPreviewActive){
+   const tests=JSON.parse(localStorage.getItem('ikhdimni_owner_test_requests')||'[]');
+   tests.push({
+     id:Date.now(),category:cat,service,clientName,clientPhone,area,address,
+     marketPrice:marketPrice?{low:marketPrice.low,avg:marketPrice.avg,high:marketPrice.high,unit:marketPrice.unit,country:'JO'}:null,
+     details,time:reqTime.value,providerId:p?.id||null,
+     status:p?'test_offered':'test_waiting',createdAt:new Date().toISOString()
+   });
+   localStorage.setItem('ikhdimni_owner_test_requests',JSON.stringify(tests));
+   requestMsg.innerHTML='';
+   showRequestSuccess(tests[tests.length-1].id);
+   return
+ }
+
  const rs=requests();
- const r={id:Date.now(),clientId:currentUser.id,category:cat,service,area,details,time:reqTime.value,status:p?'offered':'waiting',providerId:p?.id||null,createdAt:new Date().toISOString(),dispatchLog:[]};
+ const r={
+   id:Date.now(),
+   clientId:currentUser?.id||null,
+   guestClient:!currentUser,
+   clientName,
+   clientPhone,
+   clientAddress:address,
+   category:cat,
+   service,
+   marketPrice:marketPrice?{low:marketPrice.low,avg:marketPrice.avg,high:marketPrice.high,unit:marketPrice.unit,country:'JO'}:null,
+   area,
+   details,
+   time:reqTime.value,
+   status:p?'offered':'waiting',
+   providerId:p?.id||null,
+   createdAt:new Date().toISOString(),
+   dispatchLog:[]
+ };
  if(p){
    r.dispatchLog.push({providerId:p.id,at:new Date().toISOString(),result:'offered'});
    const us=users(),i=us.findIndex(x=>x.id===p.id);
-   us[i].lastAssignedAt=Date.now();
-   saveUsers(us)
+   if(i>=0){
+     us[i].lastAssignedAt=Date.now();
+     saveUsers(us)
+   }
  }
- rs.push(r);saveRequests(rs);audit('إنشاء طلب',service+' - '+area);
- requestMsg.innerHTML=p
-   ? `<div class="status approved">تم إنشاء الطلب وإرساله لمقدم خدمة مؤهل بالدور العادل.</div>`
-   : `<div class="status pending">تم إنشاء الطلب، ولا يوجد مقدم خدمة مؤهل متاح حاليًا.</div>`
+ rs.push(r);
+ saveRequests(rs);
+ if(!currentUser){
+   const guestIds=JSON.parse(localStorage.getItem('ikhdimni_guest_request_ids')||'[]');
+   if(!guestIds.includes(r.id)) guestIds.push(r.id);
+   localStorage.setItem('ikhdimni_guest_request_ids',JSON.stringify(guestIds.slice(-100)));
+ }
+ audit('إنشاء طلب',service+' - '+area+' - '+(currentUser?'عميل مسجل':'عميل بدون تسجيل'));
+ requestMsg.innerHTML='';
+ showRequestSuccess(r.id)
 }
 function providerAccept(id){if(ownerPreviewActive){alert('هذه معاينة من لوحة المالك، ولن يتم تغيير حالة الطلب الحقيقي.');return}const rs=requests(),i=rs.findIndex(r=>r.id===id);if(i<0)return;rs[i].status='accepted';rs[i].dispatchLog.push({providerId:currentUser.id,at:new Date().toISOString(),result:'accepted'});saveRequests(rs);audit('قبول طلب','request '+id);renderDashboard()}
 
@@ -570,13 +1729,89 @@ function exitOwnerPreview(){
  renderOwner();
 }
 
-function showOwnerTab(t){ownerProviders.classList.toggle('hidden',t!=='providers');ownerMerchants.classList.toggle('hidden',t!=='merchants');ownerClients.classList.toggle('hidden',t!=='clients')}
+function showOwnerTab(t){
+ ownerProviders.classList.toggle('hidden',t!=='providers');
+ ownerMerchants.classList.toggle('hidden',t!=='merchants');
+ ownerClients.classList.toggle('hidden',t!=='clients');
+ ownerLowestPrices.classList.toggle('hidden',t!=='lowest');
+ const central=document.getElementById('ownerCentralPayments');
+ if(central) central.classList.toggle('hidden',t!=='payments');
+ if(t==='lowest') renderOwnerLowestPrices();
+}
+
+function buildOwnerLowCategoryOptions(){
+ if(!window.ownerLowCategory)return;
+ const current=ownerLowCategory.value||'';
+ ownerLowCategory.innerHTML='<option value="">كل التصنيفات</option>'+Object.keys(SERVICE_CATALOG).map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+ if([...ownerLowCategory.options].some(o=>o.value===current)) ownerLowCategory.value=current;
+}
+function lowSourceFor(cat,service){
+ const exact=JORDAN_LOWEST_VERIFIED[service];
+ if(exact)return {...exact,verified:true};
+ const p=JORDAN_PRICE_DATA[service];
+ return {
+   rawLow:p?.low??null,
+   unit:p?.unit||'',
+   provider:'لا يوجد حتى الآن عرض مطابق موثق باسم جهة محددة',
+   source:JORDAN_PRICE_SOURCES[cat]||'مرجع سوق الأردن',
+   area:'الأردن',
+   phone:'—',
+   address:'—',
+   status:'مرجع سعري فقط',
+   url:'',
+   note:'هذا هو الحد الأدنى المرجعي في قاعدة التسعير، وليس ادعاءً بأنه أرخص مزود حاليًا. تحتاج الخدمة إلى عرض منشور مطابق قبل إضافة اسم ورقم وعنوان الجهة.',
+   verified:false
+ };
+}
+function renderOwnerLowestPrices(){
+ if(!window.ownerLowestList)return;
+ buildOwnerLowCategoryOptions();
+ const q=(ownerLowSearch?.value||'').trim().toLowerCase();
+ const catFilter=ownerLowCategory?.value||'';
+ const rows=[];
+ Object.entries(SERVICE_CATALOG).forEach(([cat,v])=>{
+   if(catFilter && cat!==catFilter)return;
+   v.items.forEach(service=>{
+     if(q && !(service+' '+cat).toLowerCase().includes(q))return;
+     const d=lowSourceFor(cat,service);
+     const phoneText=String(d.phone||''),digits=phoneText.replace(/\D/g,'');
+     const hasReachablePhone=digits.length>=7&&!/[Xx*]/.test(phoneText);
+     if(!hasReachablePhone)return;
+     const customer=JORDAN_PRICE_DATA[service];
+     rows.push({cat,service,d,customer});
+   });
+ });
+ ownerLowestList.innerHTML=rows.map(({cat,service,d,customer})=>`
+   <div class="low-source-card">
+     <div class="low-source-head">
+       <div><b>${esc(service)}</b><div class="small">${esc(cat)}</div></div>
+       <div style="text-align:left">
+         <span class="source-badge ${d.verified?'verified':'reference'}">${d.verified?'مصدر محدد تم التحقق منه':'مرجع فقط'}</span>
+         <div class="low-source-price">${d.rawLow==null?'—':priceNumber(d.rawLow)+' د.أ'}</div>
+         <div class="small">${esc(d.unit||'')}</div>
+       </div>
+     </div>
+     <div class="low-source-meta">
+       <div><b>الجهة / صاحب العرض</b><br>${esc(d.provider)}</div>
+       <div><b>المصدر</b><br>${esc(d.source)}</div>
+       <div><b>الهاتف الظاهر علنًا</b><br>${esc(d.phone||'—')}</div>
+       <div><b>العنوان / المنطقة المنشورة</b><br>${esc(d.address||d.area||'—')}</div>
+       <div><b>السعر المتوسط للعميل</b><br>${customer?priceNumber(customer.avg)+' د.أ / '+esc(customer.unit):'—'}</div>
+       <div><b>الحالة</b><br>${esc(d.status||'')}</div>
+     </div>
+     <div class="small" style="margin-top:8px">${esc(d.note||'')}</div>
+     ${d.url?`<button class="secondary" onclick="window.open('${d.url}','_blank','noopener')">فتح المصدر</button>`:''}
+   </div>
+ `).join('') || '<div class="muted">لا توجد نتائج بأرقام تواصل كاملة منشورة.</div>';
+}
+
 function ledgerHtml(u){return (u.ledger||[]).length?`<div class="ledger">${[...(u.ledger||[])].reverse().slice(0,6).map(x=>`${esc(x.type)}: ${Number(x.amount||0).toFixed(2)} — قبل ${Number(x.before||0).toFixed(2)} / بعد ${Number(x.after||0).toFixed(2)} — ${esc(x.reason||'')} — ${esc(x.at||'')}`).join('<br>')}</div>`:'<div class="ledger">لا توجد حركات مالية.</div>'}
 function renderOwner(){
+ buildOwnerLowCategoryOptions();
  const us=users(),ps=us.filter(x=>x.role==='provider'),ms=us.filter(x=>x.role==='merchant'),cs=us.filter(x=>x.role==='client');kpiProviders.textContent=ps.length;kpiMerchants.textContent=ms.length;kpiClients.textContent=cs.length;
- ownerProviders.innerHTML='<h2>مقدمو الخدمة</h2>'+(ps.length?ps.map(p=>`<div class="panel"><h3>${esc(p.fullName)}</h3><div class="grid"><div><b>الهوية:</b><br>${esc(p.nationalId)}</div><div><b>الإيميل:</b><br>${esc(p.email)}</div><div><b>الهاتف:</b><br>${esc(p.phone)}</div><div><b>البديل:</b><br>${esc(p.altPhone||'—')}</div><div><b>العنوان:</b><br>${esc(p.address)}</div><div><b>المنطقة:</b><br>${esc(p.area)}</div><div><b>المهنة:</b><br>${esc(p.job)}</div><div><b>الخبرة:</b><br>${Number(p.experience||0)}</div><div><b>نبذة:</b><br>${esc(p.bio||'—')}</div><div><b>ملاحظات الإدارة:</b><br>${esc(p.adminNotes||'—')}</div><div><b>تاريخ التسجيل:</b><br>${esc(p.createdAt)}</div><div><b>تاريخ التفعيل:</b><br>${esc(p.approvedAt||'لم يفعّل')}</div><div><b>الرصيد:</b><br>${Number(p.balance||0).toFixed(2)} ${esc(p.currency||'')}</div><div><b>الحالة:</b><br>${p.providerStatus==='approved'?'مفعّل':'قيد المراجعة'}</div></div>${p.idImage?`<div><b>صورة الهوية:</b><div class="photo-preview"><img src="${p.idImage}"></div></div>`:''}${(p.workImages||[]).length?`<div><b>صور الأعمال:</b><div class="photo-preview">${p.workImages.map(x=>`<img src="${x}">`).join('')}</div></div>`:''}<div class="grid3"><button class="success" onclick="adjustBalance(${p.id},'add')">إضافة مبلغ</button><button class="danger" onclick="adjustBalance(${p.id},'subtract')">خصم مبلغ</button>${p.providerStatus==='approved'?`<button class="warn" onclick="setProviderStatus(${p.id},'pending')">إيقاف</button>`:`<button onclick="setProviderStatus(${p.id},'approved')">تفعيل الحساب</button>`}</div><button class="secondary" onclick="ownerPreviewUser(${p.id})">معاينة واجهة هذا الحساب</button><button onclick="openProviderEditor(${p.id})">تعديل بيانات مقدم الخدمة</button><button class="secondary" onclick="ownerResetPassword(${p.id})">إعادة تعيين كلمة المرور</button>${ledgerHtml(p)}</div>`).join(''):'<div class="status pending">لا يوجد مقدمو خدمة.</div>');
- ownerMerchants.innerHTML='<h2>التجار</h2>'+(ms.length?ms.map(m=>`<div class="panel"><h3>${esc(m.storeName||m.fullName)}</h3><div class="grid"><div><b>صاحب الحساب:</b><br>${esc(m.fullName)}</div><div><b>الهوية:</b><br>${esc(m.nationalId)}</div><div><b>الإيميل:</b><br>${esc(m.email)}</div><div><b>الهاتف:</b><br>${esc(m.phone)}</div><div><b>نوع المواد:</b><br>${esc(m.materialType)}</div><div><b>موقع المنشأة:</b><br>${esc(m.businessAddress||'')}</div><div><b>الإحداثيات:</b><br>${esc(m.lat||'')} , ${esc(m.lng||'')}</div><div><b>مستوى الأسعار:</b><br>${esc(m.priceLevel||'غير محسوب')}</div><div><b>عينة السعر:</b><br>${esc(m.sampleItem||'')} — ${Number(m.samplePrice||0).toFixed(2)} ${esc(m.currency||'')}</div><div><b>الرصيد:</b><br>${Number(m.balance||0).toFixed(2)}</div><div><b>تاريخ التسجيل:</b><br>${esc(m.createdAt)}</div></div><button onclick="recalcMerchantPriceLevel(${m.id})">إعادة حساب مستوى السعر</button>${m.lat&&m.lng?`<button class="secondary" onclick="openMap('${m.lat}','${m.lng}')">فتح الموقع على الخريطة</button>`:''}<button class="secondary" onclick="ownerPreviewUser(${m.id})">معاينة واجهة هذا الحساب</button>${ledgerHtml(m)}</div>`).join(''):'<div class="status pending">لا يوجد تجار.</div>');
- ownerClients.innerHTML='<h2>العملاء</h2>'+(cs.length?cs.map(c=>`<div class="panel"><h3>${esc(c.fullName)}</h3><div class="grid"><div><b>الهوية:</b><br>${esc(c.nationalId)}</div><div><b>الإيميل:</b><br>${esc(c.email)}</div><div><b>الهاتف:</b><br>${esc(c.phone)}</div><div><b>البديل:</b><br>${esc(c.altPhone||'—')}</div><div><b>العنوان:</b><br>${esc(c.address)}</div><div><b>المنطقة:</b><br>${esc(c.area)}</div><div><b>الدولة:</b><br>${esc(c.country)}</div><div><b>تاريخ التسجيل:</b><br>${esc(c.createdAt)}</div></div><button class="secondary" onclick="ownerPreviewUser(${c.id})">معاينة واجهة هذا الحساب</button><button class="secondary" onclick="ownerResetPassword(${c.id})">إعادة تعيين كلمة المرور</button></div>`).join(''):'<div class="status pending">لا يوجد عملاء.</div>');
+ ownerProviders.innerHTML='<h2>مقدمو الخدمة</h2>'+(ps.length?ps.map(p=>`<div class="panel"><h3>${esc(p.fullName)}</h3><div class="grid"><div><b>الهوية:</b><br>${esc(p.nationalId)}</div><div><b>الإيميل:</b><br>${esc(p.email)}</div><div><b>الهاتف:</b><br>${esc(p.phone)}</div><div><b>البديل:</b><br>${esc(p.altPhone||'—')}</div><div><b>العنوان:</b><br>${esc(p.address)}</div><div><b>المنطقة:</b><br>${esc(p.area)}</div><div><b>المهنة:</b><br>${esc(p.job)}</div><div><b>الخبرة:</b><br>${Number(p.experience||0)}</div><div><b>نبذة:</b><br>${esc(p.bio||'—')}</div><div><b>ملاحظات الإدارة:</b><br>${esc(p.adminNotes||'—')}</div><div><b>تاريخ التسجيل:</b><br>${esc(p.createdAt)}</div><div><b>تاريخ التفعيل:</b><br>${esc(p.approvedAt||'لم يفعّل')}</div><div><b>الرصيد:</b><br>${Number(p.balance||0).toFixed(2)} ${esc(p.currency||'')}</div><div><b>الحالة:</b><br>${p.providerStatus==='approved'?'مفعّل':'قيد المراجعة'}</div></div>${p.idImage?`<div><b>صورة الهوية:</b><div class="photo-preview"><img src="${p.idImage}"></div></div>`:''}${(p.workImages||[]).length?`<div><b>صور الأعمال:</b><div class="photo-preview">${p.workImages.map(x=>`<img src="${x}">`).join('')}</div></div>`:''}<div class="grid3"><button class="success" onclick="adjustBalance(${p.id},'add')">إضافة مبلغ</button><button class="danger" onclick="adjustBalance(${p.id},'subtract')">خصم مبلغ</button>${p.providerStatus==='approved'?`<button class="warn" onclick="setProviderStatus(${p.id},'pending')">إيقاف</button>`:`<button onclick="setProviderStatus(${p.id},'approved')">تفعيل الحساب</button>`}</div><button onclick="openProviderEditor(${p.id})">تعديل بيانات مقدم الخدمة</button><button class="secondary" onclick="ownerResetPassword(${p.id})">إعادة تعيين كلمة المرور</button>${ledgerHtml(p)}</div>`).join(''):'<div class="status pending">لا يوجد مقدمو خدمة.</div>');
+ ownerMerchants.innerHTML='<h2>التجار</h2>'+(ms.length?ms.map(m=>`<div class="panel"><h3>${esc(m.storeName||m.fullName)}</h3><div class="grid"><div><b>صاحب الحساب:</b><br>${esc(m.fullName)}</div><div><b>الهوية:</b><br>${esc(m.nationalId)}</div><div><b>الإيميل:</b><br>${esc(m.email)}</div><div><b>الهاتف:</b><br>${esc(m.phone)}</div><div><b>نوع المواد:</b><br>${esc(m.materialType)}</div><div><b>موقع المنشأة:</b><br>${esc(m.businessAddress||'')}</div><div><b>الإحداثيات:</b><br>${esc(m.lat||'')} , ${esc(m.lng||'')}</div><div><b>مستوى الأسعار:</b><br>${esc(m.priceLevel||'غير محسوب')}</div><div><b>عينة السعر:</b><br>${esc(m.sampleItem||'')} — ${Number(m.samplePrice||0).toFixed(2)} ${esc(m.currency||'')}</div><div><b>الرصيد:</b><br>${Number(m.balance||0).toFixed(2)}</div><div><b>تاريخ التسجيل:</b><br>${esc(m.createdAt)}</div></div><button onclick="recalcMerchantPriceLevel(${m.id})">إعادة حساب مستوى السعر</button>${m.lat&&m.lng?`<button class="secondary" onclick="openMap('${m.lat}','${m.lng}')">فتح الموقع على الخريطة</button>`:''}${ledgerHtml(m)}</div>`).join(''):'<div class="status pending">لا يوجد تجار.</div>');
+ ownerClients.innerHTML='<h2>العملاء</h2>'+(cs.length?cs.map(c=>`<div class="panel"><h3>${esc(c.fullName)}</h3><div class="grid"><div><b>الهوية:</b><br>${esc(c.nationalId)}</div><div><b>الإيميل:</b><br>${esc(c.email)}</div><div><b>الهاتف:</b><br>${esc(c.phone)}</div><div><b>البديل:</b><br>${esc(c.altPhone||'—')}</div><div><b>العنوان:</b><br>${esc(c.address)}</div><div><b>المنطقة:</b><br>${esc(c.area)}</div><div><b>الدولة:</b><br>${esc(c.country)}</div><div><b>تاريخ التسجيل:</b><br>${esc(c.createdAt)}</div></div><button class="secondary" onclick="ownerResetPassword(${c.id})">إعادة تعيين كلمة المرور</button></div>`).join(''):'<div class="status pending">لا يوجد عملاء.</div>');
  const a=audits();auditView.innerHTML=a.length?[...a].reverse().slice(0,25).map(x=>`${esc(x.at)} — <b>${esc(x.action)}</b> — ${esc(x.details)}`).join('<br>'):'لا توجد عمليات مسجلة.';
 }
 function openProviderEditor(id){
@@ -660,5 +1895,48 @@ function captureMerchantLocation(){if(!navigator.geolocation)return alert('ال�
 
 (function boot(){const c=localStorage.getItem('ikhdimni_country');if(c){selectedCountry={code:c,...profile(c)};applyCountry();showScreen('home')}else{renderCountries();showScreen('countrySelect')}})();
 </script>
+<div aria-labelledby="requestSuccessTitle" aria-modal="true" class="request-success-overlay" id="requestSuccessOverlay" role="dialog">
+<div class="request-success-box">
+<div class="request-success-icon">✓</div>
+<h2 id="requestSuccessTitle">تم استلام طلبك بنجاح</h2>
+<p>شكرًا لاستخدامك <b>اخدمني</b>. تم تسجيل طلبك، وسنتواصل معك في أقرب وقت لتأكيد التفاصيل والموعد المناسب للخدمة.</p>
+<div class="request-success-ref" id="requestSuccessRef"></div>
+<button onclick="closeRequestSuccess()">تمام</button>
+</div>
+</div>
+<div class="client-drawer-backdrop" id="clientDrawerBackdrop" onclick="closeClientDrawer()"></div>
+<aside aria-label="القائمة الجانبية" class="client-drawer" id="clientDrawer">
+<div class="client-drawer-head">
+<div>
+<b style="font-size:20px">القائمة</b>
+<div class="small">اخدمني</div>
+</div>
+<button class="light" onclick="closeClientDrawer()" type="button">✕</button>
+</div>
+<div class="client-drawer-profile" id="clientDrawerProfile"></div>
+<div class="client-drawer-menu">
+<button class="client-menu-item" onclick="showClientDrawerSection('history')"><span class="mi">🧾</span>طلباتي والخدمات السابقة</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('notifications')"><span class="mi">🔔</span>الإشعارات</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('addresses')"><span class="mi">📍</span>العناوين المحفوظة</button>
+<button class="client-menu-item" onclick="openPaymentCenter()"><span class="mi">💳</span>طرق الدفع</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('referral')"><span class="mi">🎁</span>شارك واربح 10%</button><button class="client-menu-item" onclick="showClientDrawerSection('account')"><span class="mi">👤</span>حسابي</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('settings')"><span class="mi">⚙️</span>الإعدادات</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('help')"><span class="mi">❓</span>المساعدة والدعم</button>
+<button class="client-menu-item" onclick="showClientDrawerSection('terms')"><span class="mi">📄</span>الشروط والأحكام</button>
+<div class="client-drawer-detail" id="clientDrawerDetail">
+      اختر أي قسم من القائمة.
+    </div>
+</div>
+<div class="client-drawer-auth" id="clientDrawerAuth"></div>
+</aside>
+<div aria-labelledby="providerWelcomeTitle" aria-modal="true" class="provider-welcome-overlay" id="providerWelcomeOverlay" role="dialog">
+<div class="provider-welcome-box">
+<div class="provider-welcome-badge">عرض ترحيبي لمقدم الخدمة</div>
+<h2 id="providerWelcomeTitle">أول عمل نوفره لك عبر اخدمني مجاني بالكامل</h2>
+<p>أول عمل نوفره لك عبر اخدمني مجاني بالكامل: 0% عمولة على مقدم الخدمة. وبعدها، كل مقدم خدمة جديد يسجل عن طريق كودك يعطيك خصم 10% للاستخدام القادم.</p>
+<div class="provider-free-note">أول عمل = 0% عمولة عليك</div>
+<button onclick="continueProviderEntry()" type="button">متابعة</button>
+</div>
+</div>
 </body>
 </html>
